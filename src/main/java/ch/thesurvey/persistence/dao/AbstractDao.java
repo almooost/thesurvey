@@ -2,6 +2,8 @@ package ch.thesurvey.persistence.dao;
 
 import ch.thesurvey.model.IModel;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
 
 /**
@@ -9,6 +11,8 @@ import java.util.List;
  */
 public class AbstractDao implements IDao {
 
+    @PersistenceContext
+    protected EntityManager entityManager;
 
     @Override
     public void add(IModel model) {
@@ -21,9 +25,7 @@ public class AbstractDao implements IDao {
     }
 
     @Override
-    public List<IModel> findAll() {
-        return null;
-    }
+    public List<IModel> findAll() {return null;}
 
     @Override
     public boolean update(IModel model) {

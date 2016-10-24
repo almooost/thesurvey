@@ -3,6 +3,7 @@ package ch.thesurvey.model;
 import org.springframework.ui.Model;
 
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
@@ -11,6 +12,9 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "user")
 public class User extends AbstractModel {
+
+    @Id
+    private Integer usr_id;
 
     public User(String name){
         this.name = name;

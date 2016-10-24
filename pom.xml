@@ -27,11 +27,22 @@
 		<junit.version>4.12</junit.version>
 		<javax.servlet.api.version>3.1.0</javax.servlet.api.version>
 		<javax.servlet.jsp.jstli.version>1.2</javax.servlet.jsp.jstli.version>
+		<commons.dbcp.version>1.4</commons.dbcp.version>
 	</properties>
 
 	<dependencies>
 
 		<!-- Spring -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+			<version>${org.springframework-version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-tx</artifactId>
+			<version>${org.springframework-version}</version>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-thymeleaf</artifactId>
@@ -72,11 +83,6 @@
 			<version>${javax.servlet.api.version}</version>
 			<!--<scope>provided</scope>-->
 		</dependency>
-		<dependency>
-			<groupId>javax.servlet.jsp</groupId>
-			<artifactId>jstl</artifactId>
-			<version>${javax.servlet.jsp.jstli.version}</version>
-		</dependency>
 		<!-- /javax -->
 
 		<!-- mysql-->
@@ -84,6 +90,12 @@
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<scope>runtime</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-dbcp</groupId>
+			<artifactId>commons-dbcp</artifactId>
+			<version>${commons.dbcp.version}</version>
 		</dependency>
 		<!-- /mysql -->
 

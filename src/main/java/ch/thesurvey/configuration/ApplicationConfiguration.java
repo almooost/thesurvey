@@ -15,13 +15,12 @@ import javax.sql.DataSource;
 @Configuration
 public class ApplicationConfiguration {
 
-
+/*
     @Bean
     @Primary
-    @Autowired
-    /*@ConfigurationProperties(prefix = "datasource.primary")*/
+    /*@ConfigurationProperties(prefix = "datasource.primary")
     public DataSource numberMasterDataSource() {
         return DataSourceBuilder.create().build();
     }
-
+*/
 }
