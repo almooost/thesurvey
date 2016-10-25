@@ -2,6 +2,7 @@ package ch.thesurvey.controller;
 
 import ch.thesurvey.model.Survey;
 import ch.thesurvey.model.User;
+import ch.thesurvey.service.SurveyService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -17,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class SurveyController extends AbstractController{
 
     private Survey surveyList;
+    private SurveyService surveyService;
 
     public SurveyController(){
         surveyList = new Survey();

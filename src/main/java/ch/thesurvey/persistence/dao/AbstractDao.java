@@ -3,16 +3,19 @@ package ch.thesurvey.persistence.dao;
 import ch.thesurvey.model.IModel;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Persistence;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 
 /**
- * Created by sam on 23.10.16.
+ * Abstract class for daos
+ * implements IDao
+ * @author Samuel Alfano
+ * @date 25.10.2016
+ * @version v0.1
  */
-public class AbstractDao implements IDao {
+abstract class AbstractDao implements IDao {
 
-    @PersistenceContext
-    protected EntityManager entityManager;
 
     @Override
     public void add(IModel model) {

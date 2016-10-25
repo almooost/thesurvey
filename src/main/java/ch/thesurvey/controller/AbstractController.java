@@ -6,9 +6,13 @@ import ch.thesurvey.persistence.dao.IDao;
 import java.util.List;
 
 /**
- * Created by sam on 23.10.16.
+ * Abtract class for controllers
+ * implements IController
+ * @author Samuel Alfano
+ * @date 25.10.2016
+ * @version v0.1
  */
-public class AbstractController implements IController{
+abstract class AbstractController implements IController{
 
 
     protected List<IModel> models;

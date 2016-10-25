@@ -7,9 +7,13 @@ import javax.persistence.Id;
 import java.util.Date;
 
 /**
- * Created by sam on 23.10.16.
+ * Abstract class for models
+ * implements IModel
+ * @author Samuel Alfano
+ * @date 25.10.2016
+ * @version v0.1
  */
-public class AbstractModel implements IModel {
+abstract class AbstractModel implements IModel {
 
 
     protected Integer id;
