@@ -1,0 +1,44 @@
+/**
+ * Custom stylesheet
+ * @author Samuel Alffano
+ * @ate 26.10.2016
+ * @version v0.1
+ */
+
+body {
+    width:100%;
+    height:100%;
+}
+
+h1 {
+    font-size:1.6em;
+}
+
+h2 {
+    font-size:1.5em;
+}
+
+/**
+ * Menu
+ */
+
+.main-menu{
+}
+
+.main-menu .profile-wrapper {
+    margin-bottom: 15px;
+}
+
+.main-menu .left_col {
+    height:100%;
+}
+
+/**
+ * Main
+ */
+
+.body{
+    width: 100%;
+    height:100%;
+    background-color: ghostwhite;
+}

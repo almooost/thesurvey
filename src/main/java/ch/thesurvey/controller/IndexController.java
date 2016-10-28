@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class IndexController extends AbstractController{
 
     @RequestMapping("/")
-    public String getSite(@RequestParam(value = "site", required = false, defaultValue = "none")String site, Model model){
+    public String getSite(@RequestParam(value = "site", required = false, defaultValue = "home")String site, Model model){
         model.addAttribute("site",site);
         return "index";
     }
