@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  * Created by sam on 23.10.16.
  */
 @Controller
-public class IndexController extends AbstractController{
+public class IndexController {
 
     @RequestMapping("/")
     public String getSite(@RequestParam(value = "site", required = false, defaultValue = "home")String site, Model model){

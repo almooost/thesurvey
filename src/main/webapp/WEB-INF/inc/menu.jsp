@@ -13,7 +13,7 @@
                         <img src="/resources/assets/images/user.png" alt="..." class="img-circle profile_img">
                     </div>
                     <div class="profile_info">
-                        <h2>John Doe</h2>
+                        <h2>${username}</h2>
                     </div>
                 </div>
             </div>

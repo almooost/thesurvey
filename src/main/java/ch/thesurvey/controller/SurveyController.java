@@ -18,7 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
  * @version v0.1
  */
 @Controller
-public class SurveyController extends AbstractController{
+public class SurveyController {
 
     private Survey surveyList;
     private SurveyService surveyService;

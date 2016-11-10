@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  * @version v0.1
  */
 @Controller
-public class QuestionController extends AbstractController {
+public class QuestionController {
 
     @RequestMapping("/surveys/questions")
     public String getSurvey(@RequestParam(value = "question", required = false, defaultValue = "none")String question, ModelMap model){

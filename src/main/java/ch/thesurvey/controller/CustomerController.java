@@ -14,7 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
  * @version v0.1
  */
 @Controller
-public class CustomerController extends AbstractController{
+public class CustomerController {
 
     @RequestMapping("/customers")
     public String getCustomer(@RequestParam(value = "survey", required = false, defaultValue = "none")String customer, ModelMap model){

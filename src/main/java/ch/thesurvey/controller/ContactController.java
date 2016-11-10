@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  * @version v0.1
  */
 @Controller
-public class ContactController extends AbstractController {
+public class ContactController {
 
     @RequestMapping("/contacts")
     public String getContacts(@RequestParam(value = "contact", required = false, defaultValue = "none")String contact, ModelMap model){

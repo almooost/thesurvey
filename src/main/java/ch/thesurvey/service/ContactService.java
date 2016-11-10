@@ -3,5 +3,5 @@ package ch.thesurvey.service;
 /**
  * Created by sam on 23.10.16.
  */
-public class ContactService extends AbstractService{
+public class ContactService {
 }
