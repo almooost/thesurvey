@@ -1,15 +1,21 @@
 package ch.thesurvey.controller;
 
 import ch.thesurvey.model.Survey;
-import ch.thesurvey.model.User;
+import ch.thesurvey.model.interfaces.ModelInterface;
+import ch.thesurvey.model.interfaces.SurveyInterface;
 import ch.thesurvey.service.SurveyService;
+import ch.thesurvey.service.interfaces.SurveyServiceInterface;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Servey paths for surveys
@@ -20,35 +26,70 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class SurveyController {
 
-    private Survey surveyList;
-    private SurveyService surveyService;
+    private List<ModelInterface> surveyList;
+    @Autowired
+    private SurveyServiceInterface surveyService;
 
     public SurveyController(){
-        surveyList = new Survey();
+        surveyList = new ArrayList<ModelInterface>();
     }
 
-    /*
-     Example ModelAndView
-    @RequestMapping("/surveys")
-    public ModelAndView getSurvey(@RequestParam(value = "survey", required = false, defaultValue = "none")String survey, ModelAndView model){
-        return new ModelAndView("index","user", new User(survey));
-    }
-     */
+    @RequestMapping(value = "/surveys", method = RequestMethod.GET)
+    public String getSurvey(@RequestParam(value = "action", required = false, defaultValue = "manage")String action,
+                            ModelMap model,
+                            HttpSession httpSession){
 
-    @RequestMapping("/surveys")
-    public String getSurvey(@RequestParam(value = "survey", required = false, defaultValue = "none")String survey, ModelMap model){
+        switch (action){
+            case "manage":
+                surveyList = surveyService.findAll(new Survey());
+                break;
+            default:
+                surveyList = surveyService.findAll(new Survey());
+        }
+        model.addAttribute("surveyList", surveyList);
         model.addAttribute("site","survey");
-        model.addAttribute("action", "manage");
+        return "index";
+    }
+
+    @RequestMapping(value = "/surveys/view", method = RequestMethod.GET)
+    public String delteQuestion(@RequestParam(value = "id", required = false, defaultValue = "")String id,
+                            ModelMap model,
+                            HttpSession httpSession){
+
+        ModelInterface survey = null;
+
+        if(id.matches("^[\\d+]$")) {
+            survey = surveyService.findById(Integer.parseInt(id));
+        }
+
+        model.addAttribute("survey", survey);
+        model.addAttribute("site","survey_edit");
+        return "index";
+    }
+
+    @RequestMapping(value = "/surveys/new", method = RequestMethod.GET)
+    public String newSurvey(@RequestParam(value = "action", required = false, defaultValue = "new")String action,
+                            ModelMap model,
+                            HttpSession httpSession){
+
+        model.addAttribute("username", "sam");
+        model.addAttribute("site", "survey_new");
         return "index";
     }
 
     @RequestMapping(value = "/surveys/add", method = RequestMethod.POST)
-    public String getSurveyName(@ModelAttribute Survey survey, ModelMap model){
-        surveyList.addSurvey(survey);
+    public String addSurvey(@ModelAttribute Survey survey,
+                                ModelMap model,
+                                HttpSession httpSession){
+        surveyService.persist(survey);
+        surveyList = surveyService.findAll(new Survey());
+
+        model.addAttribute("info", "Neue Umfrage hinzugefügt.");
         model.addAttribute("site", "surveys");
         model.addAttribute("id", survey.getId());
         model.addAttribute("name", survey.getName());
-        model.addAttribute("surveys", surveyList.getSurveys());
+
+        model.addAttribute("surveyList", surveyList);
         return "index";
     }
 }

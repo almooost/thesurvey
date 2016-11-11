@@ -1,8 +1,8 @@
 package ch.thesurvey.utility;
 
 import ch.thesurvey.model.User;
-import ch.thesurvey.model.interfaces.IUser;
-import ch.thesurvey.service.interfaces.IUserService;
+import ch.thesurvey.model.interfaces.UserInterface;
+import ch.thesurvey.service.interfaces.UserServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -13,7 +13,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 /**
@@ -23,13 +22,13 @@ import java.util.List;
 public class CustomAuthenticationProvider implements AuthenticationProvider {
 
     @Autowired
-    private IUserService userService;
+    private UserServiceInterface userService;
 
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         String username = authentication.getName();
         String password = (String) authentication.getCredentials();
 
-        IUser user = userService.findByUser(new User(username));
+        UserInterface user = userService.findByUser(new User(username));
 
         if (user == null || !user.getUsername().equalsIgnoreCase(username)) {
             throw new BadCredentialsException("Username not found.");

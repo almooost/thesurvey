@@ -1,34 +1,37 @@
 package ch.thesurvey.persistence.dao;
 
 import ch.thesurvey.model.User;
-import ch.thesurvey.model.interfaces.IUser;
-import ch.thesurvey.persistence.dao.interfaces.IUserDao;
+import ch.thesurvey.model.interfaces.ModelInterface;
+import ch.thesurvey.model.interfaces.UserInterface;
+import ch.thesurvey.persistence.dao.interfaces.UserDaoInterface;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import java.util.List;
 
 /**
- * Created by sam on 23.10.16.
+ * Object for accessing the database
+ * @author Samuel Alfano
+ * @date 11.11.2016
+ * @version v0.1
  */
 @Repository
-public class UserDao implements IUserDao {
+public class UserDao extends AbstractDao implements UserDaoInterface {
 
-    @Autowired
-    private SessionFactory sessionFactory;
-
-    public IUser findByUser(IUser model) {
+    @Transactional
+    public UserInterface findByUser(UserInterface model) {
 
         String hql = "from User u where u.username = :username and u.status = 1";
         Query query = sessionFactory.getCurrentSession().createQuery(hql,model.getClass());
         query.setParameter("username", model.getUsername());
-        IUser user = new User();
+        UserInterface user = new User();
         try {
-            user = (IUser) query.getSingleResult();
+            user = (UserInterface) query.getSingleResult();
         }
         catch (NoResultException e){
             System.out.println(query.toString());
@@ -39,47 +42,15 @@ public class UserDao implements IUserDao {
     }
 
     @Override
-    public IUser findById(Integer userId) {
-        Session session = sessionFactory.getCurrentSession();
-        session.getTransaction().begin();
-
-        IUser resultUser = session.find(User.class, userId);
-        session.getTransaction().commit();
-        session.close();
-        return resultUser;
+    @Transactional
+    public ModelInterface findById(Integer id) {
+        return sessionFactory.getCurrentSession().find(User.class, id);
     }
 
     @Override
-    public List<IUser> findAll(IUser model) {
-        Session session = sessionFactory.getCurrentSession();
-        session.getTransaction().begin();
-
-        List<IUser> models = session.createQuery("select m from User m").getResultList();
-
-        session.getTransaction().commit();
-        session.close();
-        return models;
-    }
-
-    @Override
-    public void save(IUser model) {
-        Session session = sessionFactory.getCurrentSession();
-        session.getTransaction().begin();
-        model.setId(null);
-        session.persist(model);
-        session.getTransaction().commit();
-        session.close();
-
-    }
-
-    @Override
-    public void remove(IUser model) {
-        Session session = sessionFactory.getCurrentSession();
-        session.getTransaction().begin();
-
-        session.detach(model);
-        session.getTransaction().commit();
-        session.close();
+    @Transactional
+    public List<ModelInterface> findAll(ModelInterface model) {
+        return sessionFactory.getCurrentSession().createQuery("select m from User m").getResultList();
     }
 
 }

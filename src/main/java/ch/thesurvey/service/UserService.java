@@ -1,55 +1,59 @@
 package ch.thesurvey.service;
 
-import ch.thesurvey.model.IModel;
-import ch.thesurvey.model.interfaces.IUser;
-import ch.thesurvey.persistence.dao.interfaces.IUserDao;
-import ch.thesurvey.service.interfaces.IUserService;
+import ch.thesurvey.model.User;
+import ch.thesurvey.model.interfaces.ModelInterface;
+import ch.thesurvey.model.interfaces.UserInterface;
+import ch.thesurvey.persistence.dao.UserDao;
+import ch.thesurvey.persistence.dao.interfaces.UserDaoInterface;
+import ch.thesurvey.service.interfaces.UserServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 /**
- * Created by sam on 23.10.16.
+ * Service for abstracting user dao
+ * @author Samuel Alfano
+ * @date 01.11.2016
+ * @version v0.2
  */
 @Service
-public class UserService implements IUserService {
+public class UserService implements UserServiceInterface {
 
     @Autowired
-    private IUserDao userDao;
+    private UserDaoInterface  dao;
 
     @Transactional
-    public IUser findById(Integer userId) {
-        return userDao.findById(userId);
+    public ModelInterface findById(Integer id) {
+        return dao.findById(id);
     }
 
     @Transactional
-    public List<IUser> findAll(IUser model) {
-        return userDao.findAll(model);
+    public List<ModelInterface> findAll(ModelInterface model) {
+        return dao.findAll(model);
     }
 
     @Transactional
-    public void persist(IUser model) {
-        userDao.save(model);
+    public void persist(ModelInterface model) {
+        dao.save(model);
     }
 
     @Transactional
-    public void remove(IUser model) {
-        userDao.remove(model);
+    public void remove(ModelInterface model) {
+        dao.remove(model);
     }
 
     @Transactional
-    public IUser findByUser(IUser model) {
-        return userDao.findByUser(model);
+    public UserInterface findByUser(UserInterface model) {
+        return dao.findByUser(model);
     }
 
     public boolean authenticateUser(Integer userId, String password) {
-        IUser user = userDao.findById(userId);
+        UserInterface user = (UserInterface)dao.findById(userId);
         if(user!=null && user.getId().equals(userId) && user.getPassword().equals(password)){
             return true;
         }else{
             return false;
         }
     }
-
 }

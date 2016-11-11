@@ -1,8 +1,8 @@
 package ch.thesurvey.service;
 
 import ch.thesurvey.model.User;
-import ch.thesurvey.model.interfaces.IUser;
-import ch.thesurvey.service.interfaces.IUserService;
+import ch.thesurvey.model.interfaces.UserInterface;
+import ch.thesurvey.service.interfaces.UserServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -11,24 +11,26 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import sun.plugin.util.UserProfile;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by sam on 10.11.16.
+ * Service for authentication
+ * @author Samuel Alfano
+ * @date 11.11.2016
+ * @version v0.1
  */
 @Service("CustomUserDetailsService")
 public class CustomUserDetailsService implements UserDetailsService {
 
     @Autowired
-    private IUserService userService;
+    private UserServiceInterface userService;
 
     @Transactional(readOnly=true)
     public UserDetails loadUserByUsername(String ssoId)
             throws UsernameNotFoundException {
-        IUser user = userService.findByUser(new User(ssoId));
+        UserInterface user = userService.findByUser(new User(ssoId));
         System.out.println("User : "+user);
         if(user==null){
             System.out.println("User not found");
@@ -39,7 +41,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     }
 
 
-    private List<GrantedAuthority> getGrantedAuthorities(IUser user){
+    private List<GrantedAuthority> getGrantedAuthorities(UserInterface user){
         List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
 
         authorities.add(new SimpleGrantedAuthority("ROLE_USER"));

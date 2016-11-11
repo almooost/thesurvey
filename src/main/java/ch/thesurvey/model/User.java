@@ -1,14 +1,9 @@
 package ch.thesurvey.model;
 
-import ch.thesurvey.model.interfaces.IUser;
-import ch.thesurvey.utility.GrantedAuthorityImpl;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
+import ch.thesurvey.model.interfaces.UserInterface;
 
 import javax.persistence.*;
-import java.util.Collection;
 import java.util.Date;
-import java.util.HashSet;
 
 /**
  * Represents a user
@@ -18,7 +13,7 @@ import java.util.HashSet;
  */
 @Entity
 @Table(name = "user")
-public class User implements IUser{
+public class User implements UserInterface {
 
     private Integer id;
     private String username;
@@ -84,9 +79,9 @@ public class User implements IUser{
 
     /**
      * Set new role for user
-     * @param roel
+     * @param role
      */
-    public void setRole(String roel){
+    public void setRole(String role){
         this.role = role;
     }
 
@@ -100,11 +95,11 @@ public class User implements IUser{
     }
 
     @Column(name="lastname")
-    public String getLastname() {
+    public String getName() {
         return lastname;
     }
 
-    public void setLastname(String lastname) {
+    public void setName(String lastname) {
         this.lastname = lastname;
     }
 

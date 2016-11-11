@@ -1,15 +1,19 @@
 package ch.thesurvey.controller;
 
-import ch.thesurvey.service.interfaces.IUserService;
+import ch.thesurvey.model.User;
+import ch.thesurvey.model.interfaces.ModelInterface;
+import ch.thesurvey.service.interfaces.UserServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 /**
  * Serves paths for users
@@ -21,23 +25,34 @@ import javax.servlet.http.HttpSession;
 public class UserController{
 
     @Autowired
-    private IUserService userService;
+    private UserServiceInterface userService;
+
+    private List<ModelInterface> userList;
 
 
-    @RequestMapping("/users")
-    public String getUser(@RequestParam(value = "user", required = false, defaultValue = "none")String user, ModelMap model, HttpSession httpSession){
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    @RequestMapping(value = "/users", method = RequestMethod.GET)
+    public String getUser(@RequestParam(value = "action", required = false, defaultValue = "manage")String action,
+                          ModelMap model,
+                          HttpSession httpSession){
+
+        switch (action){
+            case "manage":
+                userList = userService.findAll(new User());
+                break;
+            default:
+                userList = userService.findAll(new User());
+                break;
+        }
+
+        model.addAttribute("userList",userList);
+        model.addAttribute("action", action);
         model.addAttribute("site","user");
-        model.addAttribute("action", "manage");
         return "index";
     }
-    /*
-    @RequestMapping(value = "/user", method = RequestMethod.GET)
-    public ModelAndView getUser(@RequestParam(value = "site", defaultValue = "home", required = false)User user, ModelAndView model){
-        return model.addObject("user", user);
-    }
-    */
 
+    /**
+     * Is this even used?
+     * @return
     private String getPrincipal(){
         String userName = null;
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -49,4 +64,6 @@ public class UserController{
         }
         return userName;
     }
+     */
+
 }

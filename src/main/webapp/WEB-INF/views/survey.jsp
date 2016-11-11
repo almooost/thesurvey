@@ -1,22 +1,14 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page import="java.util.*" %>
-<%
-    List<Map<String, String>> surveyList = new ArrayList<>();
-    Map<String, String> surveyMap = new HashMap<String, String>();
-    surveyMap.put("name", "Survey 1");
-    surveyMap.put("description", "Abteilung IT, Mitarbeiter Zufriedenheits-Umfrage");
-    surveyMap.put("creator", "Samuel Alfano");
-    surveyMap.put("date_start", "28.10.2016");
-    surveyMap.put("date_end", "28.11.2016");
-    surveyMap.put("status", "active");
 
-    surveyList.add(surveyMap);
-%>
+<br /><br />
+<a href="/surveys/new"><button class="btn btn-primary">Neue Umfrage</button></a>
 
-<h1>Antworten</h1>
+<br /><br />
 <h2>Seite: ${site}, Aktion: ${action}</h2>
 
-<h3>Liste der vorhandenen Antworten</h3>
-
+<h3>Liste der vorhandenen Umfragen</h3>
 <table class="table table-striped jambo_table bulk_action">
     <thead>
     <tr class="headings">
@@ -38,29 +30,21 @@
     </thead>
 
     <tbody>
-    <%
-        Iterator iter = surveyList.iterator();
-        while (iter.hasNext())
-        {
-            Map<String, String> element = (Map<String, String>) iter.next();
-    %>
-    <tr class="even pointer">
-        <td class="a-center ">
-            <div class="icheckbox_flat-green" style="position: relative;">
-                <input type="checkbox" class="flat" name="table_records" style="position: absolute; opacity: 0;" class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;" />
-            </div>
-        </td>
-        <td><%= element.get("name")%></td>
-        <td><%= element.get("description")%></td>
-        <td><%= element.get("creator")%></td>
-        <td><%= element.get("date_start")%></td>
-        <td><%= element.get("date_end")%></td>
-        <td><%= element.get("status")%></td>
-        <td class=" last">[E] [D]</td>
-    </tr>
-    <%
-        }
-    %>
-
+    <c:forEach items="${surveyList}" var="survey">
+        <tr class="even pointer">
+            <td class="a-center ">
+                <div class="icheckbox_flat-green" style="position: relative;">
+                    <input type="checkbox" class="flat" name="table_records" style="position: absolute; opacity: 0;" class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;" />
+                </div>
+            </td>
+            <td>${survey.name}</td>
+            <td>${survey.description}</td>
+            <td>${survey.author}</td>
+            <td><fmt:formatDate value="${survey.startDate}" type="date" pattern="dd.MM.yyyy" /></td>
+            <td><fmt:formatDate value="${survey.endDate}" type="date" pattern="dd.MM.yyyy" /></td>
+            <td>${survey.status}</td>
+            <td class=" last"><a href="/surveys/view?id=${survey.id}">[E]</a> [D]</td>
+        </tr>
+    </c:forEach>
     </tbody>
 </table>

@@ -1,20 +1,14 @@
 package ch.thesurvey.controller;
 
-import ch.thesurvey.model.User;
-import ch.thesurvey.model.interfaces.IUser;
-import ch.thesurvey.service.interfaces.IUserService;
-import ch.thesurvey.utility.PasswordStorage;
+import ch.thesurvey.service.interfaces.UserServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
-import java.util.Enumeration;
 
 /**
  * Created by sam on 08.11.16.
@@ -23,7 +17,7 @@ import java.util.Enumeration;
 public class AuthenticationController {
 
     @Autowired
-    private IUserService userService;
+    private UserServiceInterface userService;
 
     @RequestMapping(value = "/signup", method = RequestMethod.GET)
     public String login(@RequestParam(value = "error", required = false, defaultValue = "") String error, ModelMap model, HttpSession httpSession){
@@ -50,8 +44,8 @@ public class AuthenticationController {
         else {
             try {
 
-                IUser searchModel = new User(username, password);
-                IUser userModel = userService.findByUser(searchModel);
+                User searchModel = new User(username, password);
+                User userModel = userService.findByUser(searchModel);
                 if (PasswordStorage.verifyPassword(searchModel.getPassword(), userModel.getPassword())) {
                     searchModel = null;
                     model.addAttribute("username", userModel.getUsername());

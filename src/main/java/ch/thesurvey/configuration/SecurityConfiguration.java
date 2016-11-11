@@ -1,11 +1,7 @@
 package ch.thesurvey.configuration;
 
-import ch.thesurvey.service.CustomUserDetailsService;
-import ch.thesurvey.service.UserService;
-import ch.thesurvey.service.interfaces.IUserService;
 import ch.thesurvey.utility.PasswordStorage;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -58,16 +54,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         return new HttpSessionEventPublisher();
     }
 
-    /*
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.jdbcAuthentication().dataSource(dataSource)
-                .usersByUsernameQuery(
-                        "select username,password, status from user where username=?")
-                .authoritiesByUsernameQuery(
-                        "select username, role from user where username=?");
-    }
-    */
 
     protected void configure(HttpSecurity http) throws Exception {
 
