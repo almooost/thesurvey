@@ -4,6 +4,8 @@ import ch.thesurvey.model.interfaces.ContactInterface;
 import ch.thesurvey.model.interfaces.EvaluationInterface;
 import ch.thesurvey.model.interfaces.QuestionInterface;
 import ch.thesurvey.model.interfaces.SurveyInterface;
+import org.hibernate.FetchMode;
+import org.hibernate.annotations.Fetch;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -37,7 +39,7 @@ public class Survey implements SurveyInterface {
 
     @Override
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name ="id")
     public Integer getId() {
         return id;
@@ -130,7 +132,9 @@ public class Survey implements SurveyInterface {
         this.datetime = datetime;
     }
 
-    @Transient
+    @ManyToMany(cascade = CascadeType.ALL, targetEntity = Contact.class, fetch = FetchType.EAGER)
+    @Fetch(org.hibernate.annotations.FetchMode.SELECT)
+    @JoinTable(name = "survey_contact", joinColumns = { @JoinColumn(name = "survey_id") }, inverseJoinColumns = { @JoinColumn(name = "contact_id") })
     public List<ContactInterface> getContacts() {
         return contacts;
     }
@@ -143,8 +147,9 @@ public class Survey implements SurveyInterface {
         contacts.add(contact);
     }
 
-    @Override
-    @Transient
+    @ManyToMany(cascade = CascadeType.ALL, targetEntity = Question.class, fetch = FetchType.EAGER)
+    @Fetch(org.hibernate.annotations.FetchMode.SELECT)
+    @JoinTable(name = "survey_question", joinColumns = { @JoinColumn(name = "survey_id") }, inverseJoinColumns = { @JoinColumn(name = "question_id") })
     public List<QuestionInterface> getQuestions() {
         return questions;
     }
@@ -159,7 +164,8 @@ public class Survey implements SurveyInterface {
         this.questions.add(question);
     }
 
-    @Override
+    //@OneToOne(targetEntity = Evaluation.class, fetch = FetchType.EAGER)
+    //@JoinColumn(name = "survey_id")
     @Transient
     public EvaluationInterface getEvaluation() {
         return evaluations;

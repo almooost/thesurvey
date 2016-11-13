@@ -33,7 +33,7 @@ public class QuestionService implements QuestionServiceInterface {
 
     @Transactional
     public void persist(ModelInterface model) {
-        dao.save(model);
+        dao.persist(model);
     }
 
     @Transactional

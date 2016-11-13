@@ -2,6 +2,9 @@
 <h1>Kontakt Seite</h1>
 <h2>Seite: ${site}, Aktion: ${action}</h2>
 
+<div class="info"></div>
+
+
 <h3>Liste der vorhandenen Kontakte</h3>
 
 <table class="table table-striped jambo_table bulk_action">
@@ -37,7 +40,10 @@
             <td>${contact.email}</td>
             <td>${contact.department}</td>
             <td>${contact.status}</td>
-            <td class=" last">[E] [D]</td>
+            <td class=" last">
+                <a href="/app/contacts/edit?id=${contact.id}" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Bearbeiten </a>
+                <a href="/app/contacts/delete?action=delete&id=${contact.id}" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> Löschen </a>
+            </td>
         </tr>
     </c:forEach>
 

@@ -1,8 +1,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <br /><br />
-<a href="/surveys/questions/new"><button class="btn btn-primary">Neue Frage</button></a>
+<a href="/app/questions/new"><button class="btn btn-primary">Neue Frage</button></a>
 <br /><br />
 <h2>Seite: ${site}, Aktion: ${action}</h2>
+
+<div class="info"></div>
 
 <h3>Liste der vorhandenen Antworten</h3>
 <table class="table table-striped jambo_table bulk_action">
@@ -36,7 +38,10 @@
                 <td>${question.description}</td>
                 <td>${question.type}</td>
                 <td>${question.status}</td>
-                <td class=" last"><a href="/surveys/questions/view?id=${question.id}">[E]</a> [D]</td>
+                <td class=" last">
+                    <a href="/app/questions/view?id=${question.id}" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Bearbeiten </a>
+                    <a href="/app/questions/delete?action=delete&id=${question.id}" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> Löschen </a>
+                </td>
             </tr>
     </c:forEach>
 

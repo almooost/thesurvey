@@ -25,7 +25,7 @@ public class Contact implements ContactInterface {
 
     @Override
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name ="id")
     public Integer getId() {
         return id;

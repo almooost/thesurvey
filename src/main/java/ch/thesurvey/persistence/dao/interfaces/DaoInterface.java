@@ -13,7 +13,7 @@ public interface DaoInterface {
 
     List<ModelInterface> findAll(ModelInterface model );
 
-    void save(ModelInterface model);
+    void persist(ModelInterface model);
 
     void remove(ModelInterface model);
 }

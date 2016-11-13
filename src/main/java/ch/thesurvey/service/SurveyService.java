@@ -1,10 +1,7 @@
 package ch.thesurvey.service;
 
 import ch.thesurvey.model.interfaces.ModelInterface;
-import ch.thesurvey.model.interfaces.ModelInterface;
-import ch.thesurvey.model.interfaces.UserInterface;
 import ch.thesurvey.persistence.dao.interfaces.SurveyDaoInterface;
-import ch.thesurvey.persistence.dao.interfaces.UserDaoInterface;
 import ch.thesurvey.service.interfaces.SurveyServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,7 +33,7 @@ public class SurveyService implements SurveyServiceInterface{
 
     @Transactional
     public void persist(ModelInterface model) {
-        dao.save(model);
+        dao.persist(model);
     }
 
     @Transactional

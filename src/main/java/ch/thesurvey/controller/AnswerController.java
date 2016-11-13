@@ -22,6 +22,7 @@ import java.util.List;
  * @version v0.1
  */
 @Controller
+@RequestMapping(value = "/app/answers/")
 public class AnswerController {
 
     @Autowired
@@ -29,7 +30,7 @@ public class AnswerController {
 
     List<ModelInterface> answerList;
 
-    @RequestMapping(value = "/surveys/answers", method = RequestMethod.GET)
+    @RequestMapping(value = "/", method = RequestMethod.GET)
     public String getAnswer(@RequestParam(value = "action", required = false, defaultValue = "manage")String action,
                             ModelMap model,
                             HttpSession httpSession){
@@ -47,7 +48,7 @@ public class AnswerController {
         return "index";
     }
 
-    @RequestMapping(value = "/surveys/answers/view", method = RequestMethod.GET)
+    @RequestMapping(value = "/edit", method = RequestMethod.GET)
     public String editAnswer(@RequestParam(value = "id", required = false, defaultValue = "")String id,
                                ModelMap model,
                                HttpSession httpSession){
@@ -63,8 +64,8 @@ public class AnswerController {
         return "index";
     }
 
-    @RequestMapping(value = "/surveys/answers/new", method = RequestMethod.GET)
-    public String newSurvey(@RequestParam(value = "action", required = false, defaultValue = "new")String action,
+    @RequestMapping(value = "/new", method = RequestMethod.GET)
+    public String newAnswer(@RequestParam(value = "action", required = false, defaultValue = "new")String action,
                             ModelMap model,
                             HttpSession httpSession){
 
@@ -73,8 +74,8 @@ public class AnswerController {
         return "index";
     }
 
-    @RequestMapping(value = "/surveys/answers/add", method = RequestMethod.POST)
-    public String addSurvey(@ModelAttribute Answer survey,
+    @RequestMapping(value = "/persist", method = RequestMethod.POST)
+    public String addAnswer(@ModelAttribute Answer survey,
                             ModelMap model,
                             HttpSession httpSession){
         answerService.persist(survey);
@@ -86,6 +87,34 @@ public class AnswerController {
         model.addAttribute("name", survey.getName());
 
         model.addAttribute("answerList", answerList);
-        return "index";
+        return "redirect:/answers/";
+    }
+
+    @RequestMapping(value = "/delete", method = RequestMethod.GET)
+    public String deleteAnswer(@RequestParam(value = "action", required = true, defaultValue = "delte")String action,
+                               @RequestParam(value = "id", required = true) String id,
+                                ModelMap model,
+                                HttpSession httpSession){
+
+        if(action.contentEquals("delete")) {
+
+            ModelInterface answer = answerService.findById(Integer.parseInt(id));
+
+            if(answer instanceof AnswerInterface && answer.getName() != null){
+                answerService.remove(answer);
+                model.addAttribute("info", "Antwort gelöscht");
+            }
+            else {
+                model.addAttribute("warning", "Antwort konnte nicht gelöscht werden!");
+            }
+
+        }
+        answerList = answerService.findAll(new Answer());
+
+        model.addAttribute("site", "answers");
+        model.addAttribute("answerList",answerList);
+
+        return "redirect:/app/answers";
+
     }
 }

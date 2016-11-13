@@ -1,7 +1,7 @@
     <div class="col-md-12 left_col">
         <div class="left_col scroll-view">
             <div class="navbar nav_title" style="border: 0;">
-                <a href="index.html" class="site_title"><i class="fa fa-paw"></i> <span>The Survey</span></a>
+                <a href="/" class="site_title"><i class="fa fa-paw"></i> <span>The Survey</span></a>
             </div>
 
             <div class="clearfix"></div>
@@ -27,11 +27,11 @@
                     <ul class="nav side-menu">
                         <li>
                             <li><a><i class="fa fa-home"></i> Home</a></li>
-                            <li><a href="/surveys"><i class="fa fa-edit"></i> Umfragen</a></li>
-                            <li><a href="/surveys/questions">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Fragen</a></li>
-                            <li><a href="/surveys/answers">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Antworten</a></li>
-                            <li><a href="/contacts"><i class="fa fa-user"></i> Kontakte</a></li>
-                            <li><a href="/evaluations"><i class="fa fa-table"></i> Auswertungen</a></li>
+                            <li><a href="/app/surveys/"><i class="fa fa-edit"></i> Umfragen</a></li>
+                            <li><a href="/app/questions/">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Fragen</a></li>
+                            <li><a href="/app/answers/">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Antworten</a></li>
+                            <li><a href="/app/contacts/"><i class="fa fa-user"></i> Kontakte</a></li>
+                            <li><a href="/app/evaluations/"><i class="fa fa-table"></i> Auswertungen</a></li>
                         </li>
                     </ul>
                 </div>

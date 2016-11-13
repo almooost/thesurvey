@@ -29,7 +29,7 @@ public class Question implements QuestionInterface{
 
     @Override
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name ="id")
     public Integer getId() {
         return id;

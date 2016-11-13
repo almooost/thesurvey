@@ -13,7 +13,7 @@
             </div>
             <div class="x_content">
                 <br>
-                <form class="form-horizontal form-label-left input_mask" method="POST" action="add">
+                <form class="form-horizontal form-label-left input_mask" method="POST" action="persist">
 
                     <input type="hidden" name="status" value="1">
 
@@ -54,7 +54,7 @@
                     <div class="ln_solid"></div>
                     <div class="form-group">
                         <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
-                            <a href="/surveys/questions"><button type="submit" class="btn btn-primary">Abbrechen</button></a>
+                            <button class="btn btn-primary"><a href="/app/questions/" style="color:white;">Abbrechen</a></button>
                             <button type="submit" class="btn btn-success">Speichern</button>
                         </div>
                     </div>

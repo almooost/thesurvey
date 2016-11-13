@@ -25,7 +25,7 @@ public class Evaluation implements EvaluationInterface {
     private Date datetime;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name ="id")
     public Integer getId() {
         return id;

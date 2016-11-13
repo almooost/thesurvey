@@ -33,7 +33,7 @@ public class AnswerService implements AnswerServiceInterface{
 
     @Transactional
     public void persist(ModelInterface model) {
-        dao.save(model);
+        dao.persist(model);
     }
 
     @Transactional

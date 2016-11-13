@@ -33,7 +33,7 @@ public class EvaluationService implements EvaluationServiceInterface{
 
     @Transactional
     public void persist(ModelInterface model) {
-        dao.save(model);
+        dao.persist(model);
     }
 
     @Transactional

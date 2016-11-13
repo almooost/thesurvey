@@ -6,5 +6,14 @@
  */
 
 $(document).ready(function(){
-    alert("Hello world!");
+    //alert("Hello world!");
+});
+
+$(document).on('click', '.deleteItem', function(){
+    var id = $(this).attr("data-id");
+    var path = $(this).attr("data-path");
+    console.log(path+"?action=delete&id="+id);
+    $.post( path+"?action=delete&id="+id, function( data ) {
+        $('.info').innerHTML(data);
+    });
 });

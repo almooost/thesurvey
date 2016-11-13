@@ -6,6 +6,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Abstract Object for accessing the database
@@ -19,24 +20,17 @@ public abstract class AbstractDao implements DaoInterface {
     @Autowired
     protected SessionFactory sessionFactory;
 
-    @Override
-    public void save(ModelInterface model) {
-        Session session = sessionFactory.getCurrentSession();
-        session.getTransaction().begin();
-        model.setId(null);
-        session.persist(model);
-        session.getTransaction().commit();
-        session.close();
+    @Transactional
+    public void persist(ModelInterface model) {
 
+        if(model.getId() == null)
+            sessionFactory.getCurrentSession().persist(model);
+        else
+            sessionFactory.getCurrentSession().update(model);
     }
 
-    @Override
+    @Transactional
     public void remove(ModelInterface model) {
-        Session session = sessionFactory.getCurrentSession();
-        session.getTransaction().begin();
-
-        session.detach(model);
-        session.getTransaction().commit();
-        session.close();
+        sessionFactory.getCurrentSession().delete(model);
     }
 }

@@ -1,9 +1,7 @@
 package ch.thesurvey.service;
 
-import ch.thesurvey.model.User;
 import ch.thesurvey.model.interfaces.ModelInterface;
 import ch.thesurvey.model.interfaces.UserInterface;
-import ch.thesurvey.persistence.dao.UserDao;
 import ch.thesurvey.persistence.dao.interfaces.UserDaoInterface;
 import ch.thesurvey.service.interfaces.UserServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +33,7 @@ public class UserService implements UserServiceInterface {
 
     @Transactional
     public void persist(ModelInterface model) {
-        dao.save(model);
+        dao.persist(model);
     }
 
     @Transactional

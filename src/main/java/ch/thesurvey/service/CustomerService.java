@@ -33,7 +33,7 @@ public class CustomerService implements CustomerServiceInterface{
 
     @Transactional
     public void persist(ModelInterface model) {
-        dao.save(model);
+        dao.persist(model);
     }
 
     @Transactional

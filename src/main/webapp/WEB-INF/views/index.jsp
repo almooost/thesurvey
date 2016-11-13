@@ -68,6 +68,8 @@
 <!-- Custom Theme Scripts -->
 <script src="/resources/assets/gentelella/build/js/custom.min.js"></script>
 
+<!-- TheSurvey custom JS -->
+<script src="/resources/assets/js/custom.js"></script>
 
 </body>
 </html>

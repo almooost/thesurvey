@@ -3,7 +3,7 @@
 <%@ page import="java.util.*" %>
 
 <br /><br />
-<a href="/surveys/new"><button class="btn btn-primary">Neue Umfrage</button></a>
+<a href="/app/surveys/new"><button class="btn btn-primary">Neue Umfrage</button></a>
 
 <br /><br />
 <h2>Seite: ${site}, Aktion: ${action}</h2>
@@ -17,11 +17,11 @@
         </th>
         <th class="column-title">Name </th>
         <th class="column-title">Beschreibung</th>
-        <th class="column-title">Ersteller</th>
+        <th class="column-title">Erstellers</th>
         <th class="column-title">Start-Datum </th>
         <th class="column-title">End-Datum </th>
         <th class="column-title">Status </th>
-        <th class="column-title no-link last"><span class="nobr">Action</span>
+        <th class="column-title no-link last"><span class="nobr">Aktionen</span>
         </th>
         <th class="bulk-actions" colspan="7">
             <a class="antoo" style="color:#fff; font-weight:500;">Bulk Actions ( <span class="action-cnt"> </span> ) <i class="fa fa-chevron-down"></i></a>
@@ -43,7 +43,10 @@
             <td><fmt:formatDate value="${survey.startDate}" type="date" pattern="dd.MM.yyyy" /></td>
             <td><fmt:formatDate value="${survey.endDate}" type="date" pattern="dd.MM.yyyy" /></td>
             <td>${survey.status}</td>
-            <td class=" last"><a href="/surveys/view?id=${survey.id}">[E]</a> [D]</td>
+            <td class=" last">
+                <a href="/app/surveys/edit?id=${survey.id}" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Bearbeiten </a>
+                <a href="/app/surveys/delete?action=delete&id=${survey.id}" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> Löschen </a>
+            </td>
         </tr>
     </c:forEach>
     </tbody>

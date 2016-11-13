@@ -22,6 +22,7 @@ import java.util.List;
  * @version v0.1
  */
 @Controller
+@RequestMapping(value = "/app/questions/")
 public class QuestionController {
 
     @Autowired
@@ -29,7 +30,7 @@ public class QuestionController {
 
     List<ModelInterface> questionList;
 
-    @RequestMapping("/surveys/questions")
+    @RequestMapping("/")
     public String getSurvey(@RequestParam(value = "action", required = false, defaultValue = "manage")String action,
                             ModelMap model,
                             HttpSession httpSession){
@@ -48,7 +49,7 @@ public class QuestionController {
         return "index";
     }
 
-    @RequestMapping(value = "/surveys/questions/view", method = RequestMethod.GET)
+    @RequestMapping(value = "/edit", method = RequestMethod.GET)
     public String editQuestion(@RequestParam(value = "id", required = false, defaultValue = "")String id,
                                  ModelMap model,
                                  HttpSession httpSession){
@@ -64,7 +65,7 @@ public class QuestionController {
         return "index";
     }
 
-    @RequestMapping(value = "/surveys/questions/new", method = RequestMethod.GET)
+    @RequestMapping(value = "/new", method = RequestMethod.GET)
     public String newSurvey(@RequestParam(value = "action", required = false, defaultValue = "new")String action,
                             ModelMap model,
                             HttpSession httpSession){
@@ -74,7 +75,7 @@ public class QuestionController {
         return "index";
     }
 
-    @RequestMapping(value = "/surveys/questions/add", method = RequestMethod.POST)
+    @RequestMapping(value = "/persist", method = RequestMethod.POST)
     public String addSurvey(@ModelAttribute Question question,
                             ModelMap model,
                             HttpSession httpSession){
@@ -87,6 +88,30 @@ public class QuestionController {
         model.addAttribute("name", question.getName());
 
         model.addAttribute("questionList", questionList);
-        return "index";
+        return "/app/questions/";
+    }
+
+    @RequestMapping(value = "/delete", method = RequestMethod.POST)
+    public String deleteSurvey(@RequestParam(value = "action", required = true, defaultValue = "delte")String action,
+                               @RequestParam(value = "id", required = true) String id,
+                               ModelMap model,
+                               HttpSession httpSession){
+
+        if(action.contentEquals("delete")) {
+
+            ModelInterface question = questionService.findById(Integer.parseInt(id));
+
+            if (question instanceof QuestionInterface && question.getName() != null) {
+                questionService.remove(question);
+                model.addAttribute("info", "Frage gelöscht");
+            } else
+                model.addAttribute("warning", "Frage konnte nicht gelöscht werden!");
+        }
+
+        questionList = questionService.findAll(new Question());
+
+        model.addAttribute("site", "questions");
+        model.addAttribute("questionList",questionList);
+        return "redirect:/app/questions";
     }
 }
