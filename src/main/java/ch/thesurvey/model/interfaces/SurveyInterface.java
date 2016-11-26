@@ -1,5 +1,6 @@
 package ch.thesurvey.model.interfaces;
 
+import javax.mail.MessagingException;
 import java.util.Date;
 import java.util.List;
 
@@ -36,40 +37,58 @@ public interface SurveyInterface extends ModelInterface {
     void setEndDate(Date date);
 
     /**
+     * Get list of contacts for this survey
+     * @return
+     */
+    List<SurveyContactInterface> getSurveyContacts();
+
+    /**
+     * Set new list of survey contacts
+     * @param surveyContacts
+     */
+    void setSurveyContacts(List<SurveyContactInterface> surveyContacts);
+
+    /**
+     * Add a new surveyContact
+     * @param surveyContact
+     */
+    void addSurveyContact(SurveyContactInterface surveyContact);
+
+    /**
      * Get list of contact recipients
      * @return contacts
      */
-    List<ContactInterface> getContacts();
+    //List<ContactInterface> getContacts();
 
     /**
      * Set new list of contacts
      * @param contacts
      */
-    void setContacts(List<ContactInterface> contacts);
+    //void setContacts(List<ContactInterface> contacts);
 
     /**
      * Add new contact to list of existing
      * @param contact
      */
-    void addContact(ContactInterface contact);
+    //void addContact(ContactInterface contact);
 
     /**
      * Get list of questions
-     * @return questions
+     * @return surveyQuestion
      */
-    List<QuestionInterface> getQuestions();
+    List<SurveyQuestionInterface> getSurveyQuestions();
 
     /**
      * Set new list of questions
-     * @param questions
+     * @param surveyQuestions
      */
-    void setQuestions(List<QuestionInterface> questions);
+    void setSurveyQuestions(List<SurveyQuestionInterface> surveyQuestions);
 
     /**
      * Add single question to survey
      * @param question
      */
-    void addQuestion(QuestionInterface question);
+    void addSurveyQuestion(SurveyQuestionInterface question);
 
     /**
      * Get evaluation for survey
@@ -94,5 +113,13 @@ public interface SurveyInterface extends ModelInterface {
      * @param description
      */
     void setDescription(String description);
+
+    /**
+     * Execute survey
+     * Set token for each employee
+     * Send emails to employees
+     * @return boolean
+     */
+    boolean execute() throws MessagingException;
 
 }

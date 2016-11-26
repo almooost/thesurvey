@@ -1,20 +1,26 @@
 package ch.thesurvey.model;
 
 import ch.thesurvey.model.interfaces.AnswerInterface;
-import ch.thesurvey.model.interfaces.QuestionInterface;
+import com.fasterxml.jackson.core.JsonGenerationException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import javax.persistence.*;
+import java.io.IOException;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
- * Model represents a question in a survey
+ * Template for answer
  * @author Samuel Alfano
- * @date 11.11.2016
+ * @date 25.11.2016
  * @version v0.1
  */
 @Entity
-@Table(name = "question")
-public class Question implements QuestionInterface{
+@Table(name = "answer_templates")
+public class AnswerTemplate implements AnswerInterface {
 
     private Integer id;
     private String name;
@@ -22,10 +28,10 @@ public class Question implements QuestionInterface{
     private String type;
     private Integer status;
 
+    private String answers;
+
     private Integer points;
     private Date datetime;
-
-    private AnswerInterface answer;
 
     @Override
     @Id
@@ -84,22 +90,59 @@ public class Question implements QuestionInterface{
         this.status = status;
     }
 
-    @Column(name = "tstamp")
+    @Override
+    @Column(name = "points")
+    public Integer getPoints() {
+        return points;
+    }
+
+    @Override
+    public void setPoints(Integer points) {
+        this.points = points;
+    }
+
+    @Override
+    @Column(name = "timestamp")
     public Date getTimestamp() {
         return datetime;
     }
 
+    @Override
     public void setTimestamp(Date datetime) {
         this.datetime = datetime;
     }
 
-    @OneToOne(targetEntity = Answer.class, fetch = FetchType.EAGER)
-    @JoinColumn(name = "id")
-    public AnswerInterface getAnswer(){return answer;}
+    @Column(name = "answers")
+    public String getAnswers() {return answers;}
 
     @Override
-    public void setAnswer(AnswerInterface answer) {
-        this.answer = answer;
+    public void setAnswers(String answers) {this.answers = answers;}
+
+    @Transient
+    public Map getAnswerList(){
+
+        Map<String, Object> map = new HashMap<String, Object>();
+
+        try {
+
+            ObjectMapper mapper = new ObjectMapper();
+            String json = getAnswers();
+
+            // convert JSON string to Map
+            map = mapper.readValue(json, new TypeReference<Map<String, String>>(){});
+
+            return map;
+
+        } catch (JsonGenerationException e) {
+            e.printStackTrace();
+        } catch (JsonMappingException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        finally {
+            return map;
+        }
     }
 
 }

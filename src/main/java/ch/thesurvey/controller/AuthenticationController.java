@@ -11,7 +11,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.HttpSession;
 
 /**
- * Created by sam on 08.11.16.
+ * Handle sinup/out requests
+ * @author Samuel Alfano
+ * @date 5.11.2016
+ * @version v0.1
  */
 @Controller
 public class AuthenticationController {

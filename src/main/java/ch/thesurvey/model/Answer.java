@@ -1,9 +1,16 @@
 package ch.thesurvey.model;
 
 import ch.thesurvey.model.interfaces.AnswerInterface;
+import com.fasterxml.jackson.core.JsonGenerationException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import javax.persistence.*;
+import java.io.IOException;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Model for answer object
@@ -20,6 +27,8 @@ public class Answer implements AnswerInterface {
     private String description;
     private String type;
     private Integer status;
+
+    private String answers;
 
     private Integer points;
     private Date datetime;
@@ -101,5 +110,38 @@ public class Answer implements AnswerInterface {
     @Override
     public void setTimestamp(Date datetime) {
         this.datetime = datetime;
+    }
+
+    @Column(name = "answers")
+    public String getAnswers() {return answers;}
+
+    @Override
+    public void setAnswers(String answers) {this.answers = answers;}
+
+    @Transient
+    public Map getAnswerList(){
+
+        Map<String, Object> map = new HashMap<String, Object>();
+
+        try {
+
+            ObjectMapper mapper = new ObjectMapper();
+            String json = getAnswers();
+
+            // convert JSON string to Map
+            map = mapper.readValue(json, new TypeReference<Map<String, String>>(){});
+
+            return map;
+
+        } catch (JsonGenerationException e) {
+            e.printStackTrace();
+        } catch (JsonMappingException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        finally {
+            return map;
+        }
     }
 }

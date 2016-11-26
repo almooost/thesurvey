@@ -32,4 +32,5 @@ public interface EvaluationInterface extends ModelInterface {
      */
     void setType(String type);
 
+
 }

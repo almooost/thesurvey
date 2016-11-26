@@ -1,16 +1,17 @@
 package ch.thesurvey.model;
 
-import ch.thesurvey.model.interfaces.ContactInterface;
-import ch.thesurvey.model.interfaces.EvaluationInterface;
-import ch.thesurvey.model.interfaces.QuestionInterface;
-import ch.thesurvey.model.interfaces.SurveyInterface;
-import org.hibernate.FetchMode;
+import ch.thesurvey.model.interfaces.*;
 import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
+import javax.mail.*;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Properties;
 
 /**
  * Model for Survey, handles all survey relevant objects
@@ -33,13 +34,13 @@ public class Survey implements SurveyInterface {
     private Integer points;
     private Date datetime;
 
-    private List<ContactInterface> contacts;
-    private List<QuestionInterface> questions;
-    private EvaluationInterface evaluations;
+    //private List<ContactInterface> contacts;
+    private List<SurveyQuestionInterface> surveyQuestions;
+    private List<SurveyContactInterface> surveyContacts;
+    private EvaluationInterface evaluation;
 
-    @Override
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name ="id")
     public Integer getId() {
         return id;
@@ -132,6 +133,20 @@ public class Survey implements SurveyInterface {
         this.datetime = datetime;
     }
 
+    //@OneToMany(cascade = CascadeType.ALL, targetEntity = SurveyContact.class, fetch = FetchType.EAGER)
+    //@Fetch(org.hibernate.annotations.FetchMode.SELECT)
+    //@JoinTable(name = "survey_contact", joinColumns =  {@JoinColumn(name = "survey_id") } , inverseJoinColumns =  {@JoinColumn(name = "contact_id")} )
+    //@OneToMany(targetEntity = SurveyContact.class,  mappedBy = "surveyId", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "survey", targetEntity = SurveyContact.class)
+    @LazyCollection(LazyCollectionOption.FALSE)
+    public List<SurveyContactInterface> getSurveyContacts(){return surveyContacts;}
+
+    @Override
+    public void setSurveyContacts(List<SurveyContactInterface> surveyContacts) {this.surveyContacts = surveyContacts;}
+
+    @Transient
+    public void addSurveyContact(SurveyContactInterface surveyContact){surveyContacts.add(surveyContact);}
+/*
     @ManyToMany(cascade = CascadeType.ALL, targetEntity = Contact.class, fetch = FetchType.EAGER)
     @Fetch(org.hibernate.annotations.FetchMode.SELECT)
     @JoinTable(name = "survey_contact", joinColumns = { @JoinColumn(name = "survey_id") }, inverseJoinColumns = { @JoinColumn(name = "contact_id") })
@@ -147,32 +162,103 @@ public class Survey implements SurveyInterface {
         contacts.add(contact);
     }
 
-    @ManyToMany(cascade = CascadeType.ALL, targetEntity = Question.class, fetch = FetchType.EAGER)
-    @Fetch(org.hibernate.annotations.FetchMode.SELECT)
-    @JoinTable(name = "survey_question", joinColumns = { @JoinColumn(name = "survey_id") }, inverseJoinColumns = { @JoinColumn(name = "question_id") })
-    public List<QuestionInterface> getQuestions() {
-        return questions;
+*/
+    //@ManyToMany(cascade = CascadeType.ALL, targetEntity = Question.class, fetch = FetchType.EAGER)
+    //@Fetch(org.hibernate.annotations.FetchMode.SELECT)
+    //@JoinTable(name = "survey_question", joinColumns =  {@JoinColumn(name = "question_id", referencedColumnName = "id") } , inverseJoinColumns =  {@JoinColumn(name = "survey_id", referencedColumnName = "id")} )
+    //@JoinTable(name = "survey_question", joinColumns = @JoinColumn(name = "survey_id"), inverseJoinColumns = @JoinColumn(name = "question_id") )
+
+
+    /*
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = Question.class)
+    @JoinTable(name = "survey_question", joinColumns = {
+            @JoinColumn(name = "question_id", nullable = false, updatable = false) },
+            inverseJoinColumns = { @JoinColumn(name = "id",
+                    nullable = false, updatable = false) })
+                    */
+    @OneToMany(mappedBy = "survey", targetEntity = SurveyQuestion.class)
+    @LazyCollection(LazyCollectionOption.FALSE)
+    public List<SurveyQuestionInterface> getSurveyQuestions() {
+        return surveyQuestions;
     }
 
     @Override
-    public void setQuestions(List<QuestionInterface> questions) {
-        this.questions = questions;
-    }
+    public void setSurveyQuestions(List<SurveyQuestionInterface> surveyQuestions) {this.surveyQuestions = surveyQuestions;}
 
     @Override
-    public void addQuestion(QuestionInterface question) {
-        this.questions.add(question);
-    }
-
-    //@OneToOne(targetEntity = Evaluation.class, fetch = FetchType.EAGER)
-    //@JoinColumn(name = "survey_id")
     @Transient
+    public void addSurveyQuestion(SurveyQuestionInterface surveyQuestion) {this.surveyQuestions.add(surveyQuestion);}
+
+    @OneToOne(targetEntity = Evaluation.class, fetch = FetchType.EAGER)
+    @JoinColumn(name = "id")
     public EvaluationInterface getEvaluation() {
-        return evaluations;
+        return evaluation;
     }
 
     @Override
     public void setEvaluation(EvaluationInterface evaluation) {
-        this.evaluations = evaluation;
+        this.evaluation = evaluation;
     }
+
+    @Transient
+    public boolean execute() throws MessagingException
+    {
+
+        // Set mailserver settings
+        System.out.println("\n 1st ===> setup Mail Server Properties..");
+        Properties mailProperties = System.getProperties();
+        mailProperties.put("mail.smtp.host", "smtp.inetworx.ch");        mailProperties.put("mail.smtp.port", "587");
+        mailProperties.put("mail.smtp.auth", "true");
+        mailProperties.put("mail.smtp.starttls.enable", "true");
+        System.out.println("Mail Server Properties have been setup successfully..");
+
+        // Create email
+        System.out.println("\n\n 2nd ===> get Mail Session..");
+        Session mailSession = Session.getDefaultInstance(mailProperties, null);
+        /*
+        Session mailSession = Session.getDefaultInstance(mailProperties, new javax.mail.Authenticator() {
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication("alfano.eth0", "M@1à4TestingProbs!Really");
+            }
+        });
+        */
+        MimeMessage mimeMessage = new MimeMessage(mailSession);
+        mimeMessage.setSender(new InternetAddress("alfano@eth0.ch"));
+        mimeMessage.setFrom(new InternetAddress("alfano@eth0.ch"));
+
+        /*
+        for (SurveyContactInterface surveyContact: getSurveyContacts()) {
+            if(!surveyContact.getContact().getEmail().contentEquals(""))
+                mimeMessage.addRecipient(Message.RecipientType.TO, new InternetAddress(surveyContact.getContact().getEmail()));
+
+        }
+*/
+//        mimeMessage.addRecipient(Message.RecipientType.TO, new InternetAddress("sam.almost@gmail.com"));
+        mimeMessage.addRecipient(Message.RecipientType.CC, new InternetAddress("samuel.alfano@students.ffhs.ch"));
+
+
+        mimeMessage.setSubject("Test Subject von The Survey");
+        String emailBody = "Test email body " + "<br><br> Regards, <br>Sam Ori";
+        mimeMessage.setContent(emailBody, "text/html");
+        System.out.println("Mail Session has been created successfully..");
+
+        // create new trasnport for sending
+        System.out.println("\n\n 3rd ===> Get Session and Send mail");
+        Transport transport = mailSession.getTransport("smtp");
+
+        // Enter your correct gmail UserID and Password
+        // if you have 2FA enabled then provide App Specific Password
+        transport.connect("smtp.inetworx.ch", "alfano.eth0", "Ma1l4AppTestingPurposes!");
+
+        transport.sendMessage(mimeMessage, mimeMessage.getAllRecipients());
+        transport.close();
+        System.out.println("\n\n 4rd ===> E-Mails sent! Proceeding");
+
+        // Set status to running/executed
+        setStatus(8);
+
+        return true;
+
+    }
+
 }

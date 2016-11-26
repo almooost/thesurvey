@@ -71,7 +71,8 @@ public class ContactController {
     public String newSurvey(@RequestParam(value = "action", required = false, defaultValue = "new")String action,
                             ModelMap model,
                             HttpSession httpSession){
-
+        Contact contact = new Contact();
+        model.addAttribute("contact", contact);
         model.addAttribute("username", "sam");
         model.addAttribute("site", "contact_new");
         return "index";
@@ -81,6 +82,8 @@ public class ContactController {
     public String addSurvey(@ModelAttribute Contact contact,
                             ModelMap model,
                             HttpSession httpSession){
+
+        contact.setStatus(1);
         contactService.persist(contact);
         contactList = contactService.findAll(new Contact());
 

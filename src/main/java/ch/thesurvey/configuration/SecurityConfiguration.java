@@ -66,11 +66,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .migrateSession();
 
         http.authorizeRequests()
-                .anyRequest().authenticated()
-                .antMatchers("/*").access("hasRole('ROLE_USER')");
+                //.anyRequest().authenticated()
+                .antMatchers("/app/**").access("hasRole('ROLE_USER')");
 
         http.formLogin()
-                .successForwardUrl("/")
+                .successForwardUrl("/app/")
                 .and()
                 .logout()
                     .logoutSuccessUrl("/signup?logout")

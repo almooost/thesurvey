@@ -69,7 +69,9 @@ public class QuestionController {
     public String newSurvey(@RequestParam(value = "action", required = false, defaultValue = "new")String action,
                             ModelMap model,
                             HttpSession httpSession){
-
+        Question question = new Question();
+        question.setType("text");
+        model.addAttribute("question", question);
         model.addAttribute("username", "sam");
         model.addAttribute("site", "question_new");
         return "index";
@@ -79,6 +81,8 @@ public class QuestionController {
     public String addSurvey(@ModelAttribute Question question,
                             ModelMap model,
                             HttpSession httpSession){
+
+        question.setStatus(1);
         questionService.persist(question);
         questionList = questionService.findAll(new Question());
 
@@ -88,7 +92,7 @@ public class QuestionController {
         model.addAttribute("name", question.getName());
 
         model.addAttribute("questionList", questionList);
-        return "/app/questions/";
+        return "redirect:/app/questions/";
     }
 
     @RequestMapping(value = "/delete", method = RequestMethod.POST)

@@ -33,6 +33,12 @@ public interface QuestionInterface extends ModelInterface {
     void setType(String type);
 
     /**
+     * Get corresponding answer to question
+     * @return answer
+     */
+    AnswerInterface getAnswer();
+
+    /**
      * Set new answer
      * @param answer
      */

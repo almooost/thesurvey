@@ -18,14 +18,15 @@ import java.util.List;
 public class SurveyDao extends AbstractDao implements SurveyDaoInterface {
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public ModelInterface findById(Integer id) {
         return sessionFactory.getCurrentSession().find(Survey.class, id);
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public List<ModelInterface> findAll(ModelInterface model) {
-        return sessionFactory.getCurrentSession().createQuery("select m from Survey m").getResultList();
+        List<ModelInterface> modelInterfaceList = sessionFactory.getCurrentSession().createQuery("select m from Survey m").getResultList();
+        return modelInterfaceList;
     }
 }

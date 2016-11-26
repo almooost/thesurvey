@@ -1,5 +1,6 @@
 package ch.thesurvey.model;
 
+import ch.thesurvey.model.Answer;
 import ch.thesurvey.model.interfaces.AnswerInterface;
 import ch.thesurvey.model.interfaces.QuestionInterface;
 
@@ -7,14 +8,11 @@ import javax.persistence.*;
 import java.util.Date;
 
 /**
- * Model represents a question in a survey
- * @author Samuel Alfano
- * @date 11.11.2016
- * @version v0.1
+ * Representas an question but just as a template
  */
 @Entity
-@Table(name = "question")
-public class Question implements QuestionInterface{
+@Table(name = "question_templates")
+public class QuestionTemplate implements QuestionInterface {
 
     private Integer id;
     private String name;

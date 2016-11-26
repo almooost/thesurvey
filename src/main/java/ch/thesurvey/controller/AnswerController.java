@@ -68,26 +68,30 @@ public class AnswerController {
     public String newAnswer(@RequestParam(value = "action", required = false, defaultValue = "new")String action,
                             ModelMap model,
                             HttpSession httpSession){
+        Answer answer = new Answer();
+        answer.setType("text");
 
+        model.addAttribute("answer", answer);
         model.addAttribute("username", "sam");
-        model.addAttribute("site", "survey_new");
+        model.addAttribute("site", "answer_new");
         return "index";
     }
 
     @RequestMapping(value = "/persist", method = RequestMethod.POST)
-    public String addAnswer(@ModelAttribute Answer survey,
+    public String addAnswer(@ModelAttribute Answer answer,
                             ModelMap model,
                             HttpSession httpSession){
-        answerService.persist(survey);
+        answer.setStatus(1);
+        answerService.persist(answer);
         answerList = answerService.findAll(new Answer());
 
         model.addAttribute("info", "Neue Umfrage hinzugefügt.");
         model.addAttribute("site", "answer");
-        model.addAttribute("id", survey.getId());
-        model.addAttribute("name", survey.getName());
+        model.addAttribute("id", answer.getId());
+        model.addAttribute("name", answer.getName());
 
         model.addAttribute("answerList", answerList);
-        return "redirect:/answers/";
+        return "redirect:/app/answers/";
     }
 
     @RequestMapping(value = "/delete", method = RequestMethod.GET)

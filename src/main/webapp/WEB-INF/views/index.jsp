@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <DOCTYPE html>
 <html>
 <head>
@@ -27,7 +28,9 @@
 
 <div class="container body">
     <div class="main-menu col-md-3 col-sm-12">
+        <c:if test="${site != 'live'}">
         <jsp:include page="../inc/menu.jsp"/>
+        </c:if>
     </div>
     <div class="main_container col-sm-9">
         <div class="row">

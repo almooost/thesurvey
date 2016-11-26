@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <h2>Seite: ${site}, Aktion: ${action}</h2>
 
@@ -13,16 +14,23 @@
             </div>
             <div class="x_content">
                 <br>
-                <form class="form-horizontal form-label-left input_mask" method="POST" action="add">
-
-                    <input type="hidden" name="status" value="1">
+                <form:form action="persist" method="POST" modelAttribute="answer" cssClass="form-horizontal form-label-left input_mask" >
+                    <form:hidden path="status" value="${status}" />
 
 
                     <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Name der Antwort <span class="required">*</span>
                         </label>
                         <div class="col-md-9 col-sm-9 col-xs-12">
-                            <input class="date-picker form-control col-md-7 col-xs-12" name="name" required="required" type="text">
+                            <form:input path="name" cssClass="form-control col-md-7 col-xs-12"  />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Max. Punktzahl <span class="required">*</span>
+                        </label>
+                        <div class="col-md-9 col-sm-9 col-xs-12">
+                            <form:input path="points" cssClass="form-control col-md-7 col-xs-12"  />
                         </div>
                     </div>
 
@@ -33,12 +41,12 @@
                         <p>
                             Multiple Choice:
                         <div class="iradio_flat-green checked" style="position: relative;">
-                            <input type="radio" class="flat" name="type" value="multiple-choice" checked="" required="" style="position: absolute; opacity: 0;">
+                            <form:radiobutton path="type" cssClass="flat" value="multiple-choise"/>
                             <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins>
                         </div>
                         Text
                         <div class="iradio_flat-green" style="position: relative;">
-                            <input type="radio" class="flat" name="type" value="text" style="position: absolute; opacity: 0;">
+                            <form:radiobutton path="type" cssClass="flat" value="text"/>
                             <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins>
                         </div>
                         </p>
@@ -47,19 +55,19 @@
                     <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Beschreibung</label>
                         <div class="col-md-9 col-sm-9 col-xs-12">
-                            <textarea class="form-control" name="description"></textarea>
+                            <form:textarea path="description" cssClass="description"/>
                         </div>
                     </div>
 
                     <div class="ln_solid"></div>
                     <div class="form-group">
                         <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
-                            <button type="submit" class="btn btn-primary">Abbrechen</button>
+                            <button class="btn btn-primary"><a href="/" style="color:white;">Abbrechen</a></button>
                             <button type="submit" class="btn btn-success">Speichern</button>
                         </div>
                     </div>
 
-                </form>
+                </form:form>
             </div>
         </div>
 

@@ -4,15 +4,26 @@ import ch.thesurvey.model.Evaluation;
 import ch.thesurvey.model.interfaces.EvaluationInterface;
 import ch.thesurvey.model.interfaces.ModelInterface;
 import ch.thesurvey.service.interfaces.EvaluationServiceInterface;
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.supercsv.io.CsvBeanWriter;
+import org.supercsv.io.ICsvBeanWriter;
+import org.supercsv.prefs.CsvPreference;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.awt.print.Book;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.io.Writer;
 import java.util.List;
 
 /**
@@ -22,6 +33,7 @@ import java.util.List;
  * @version v0.1
  */
 @Controller
+@RequestMapping(value = "/surveys/evaluations/")
 public class EvaluationController {
 
     @Autowired
@@ -49,7 +61,7 @@ public class EvaluationController {
         return "index";
     }
 
-    @RequestMapping(value = "/surveys/evaluations/view", method = RequestMethod.GET)
+    @RequestMapping(value = "/edit", method = RequestMethod.GET)
     public String editEvaluation(@RequestParam(value = "id", required = false, defaultValue = "")String id,
                                ModelMap model,
                                HttpSession httpSession){
@@ -65,20 +77,26 @@ public class EvaluationController {
         return "index";
     }
 
-    @RequestMapping(value = "/surveys/evaluations/new", method = RequestMethod.GET)
+    @RequestMapping(value = "/new", method = RequestMethod.GET)
     public String newSurvey(@RequestParam(value = "action", required = false, defaultValue = "new")String action,
                             ModelMap model,
                             HttpSession httpSession){
+
+        Evaluation evaluation = new Evaluation();
+
+        model.addAttribute("evaulation",evaluation);
 
         model.addAttribute("username", "sam");
         model.addAttribute("site", "evaluation_new");
         return "index";
     }
 
-    @RequestMapping(value = "/surveys/evaluations/add", method = RequestMethod.POST)
+    @RequestMapping(value = "/persist", method = RequestMethod.POST)
     public String addSurvey(@ModelAttribute Evaluation evaluation,
                             ModelMap model,
                             HttpSession httpSession){
+
+        evaluation.setStatus(1);
         evaluationService.persist(evaluation);
         evaluationList = evaluationService.findAll(new Evaluation());
 
@@ -88,10 +106,10 @@ public class EvaluationController {
         model.addAttribute("name", evaluation.getName());
 
         model.addAttribute("evaluationList", evaluationList);
-        return "index";
+        return "redirect:/surveys/evaluations";
     }
 
-    @RequestMapping(value = "/surveys/evaluations/delete", method = RequestMethod.POST)
+    @RequestMapping(value = "/delete", method = RequestMethod.POST)
     public String deleteSurvey(@RequestParam(value = "action", required = true, defaultValue = "delte")String action,
                                @RequestParam(value = "id", required = true) String id,
                                ModelMap model,
@@ -112,6 +130,44 @@ public class EvaluationController {
 
         model.addAttribute("site", "evaluations");
         model.addAttribute("evaluationList",evaluationList);
-        return "redirect:/surveys/evaluations";
+        return "redirect:";
+    }
+
+    @RequestMapping(value = "/app/evaluations/download/{id}", produces = "text/csv")
+    public void downloadCSV(HttpServletResponse response,
+                              @RequestParam(value = "id", required = true) String id,
+                              ModelMap model,
+                              HttpSession httpSession) throws IOException {
+
+        response.setContentType("text/csv");
+
+        String csvFileName = "books.csv";
+
+        // creates mock data
+        String headerKey = "Content-Disposition";
+        String headerValue = String.format("attachment; filename=\"%s\"",
+                csvFileName);
+        response.setHeader(headerKey,headerValue);
+
+        ModelInterface evaluation = new Evaluation();
+        evaluation.setId(Integer.parseInt(id));
+
+        evaluationList = evaluationService.findAll(evaluation);
+
+
+
+        // uses the Super CSV API to generate CSV data from the model data
+        ICsvBeanWriter csvWriter = new CsvBeanWriter(response.getWriter(),
+                CsvPreference.STANDARD_PREFERENCE);
+
+        String[] header = { "ID", "Name", "Beschreibung", "Start Datum", "End Datum"};
+
+        csvWriter.writeHeader(header);
+
+        for (ModelInterface eval : evaluationList) {
+            csvWriter.write(eval, header);
+        }
+
+        csvWriter.close();
     }
 }

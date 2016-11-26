@@ -1,6 +1,9 @@
 package ch.thesurvey.model;
 
 import ch.thesurvey.model.interfaces.EvaluationInterface;
+import ch.thesurvey.model.interfaces.ModelInterface;
+import ch.thesurvey.model.interfaces.SurveyInterface;
+import org.hibernate.annotations.Fetch;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -20,8 +23,8 @@ public class Evaluation implements EvaluationInterface {
     private String description;
     private String type;
     private Integer status;
+    private SurveyInterface survey;
 
-    private Integer points;
     private Date datetime;
 
     @Id
@@ -79,4 +82,5 @@ public class Evaluation implements EvaluationInterface {
     public void setTimestamp(Date datetime) {
         this.datetime = datetime;
     }
+
 }
