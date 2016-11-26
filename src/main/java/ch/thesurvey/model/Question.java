@@ -94,8 +94,13 @@ public class Question implements QuestionInterface{
     }
 
     @OneToOne(targetEntity = Answer.class, fetch = FetchType.EAGER)
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "answer_id", referencedColumnName = "id", updatable = false, insertable = false)
     public AnswerInterface getAnswer(){return answer;}
+
+    @Column(name = "answer_id")
+    public Integer getAnswerId(){return answer.getId();}
+
+    public void setAnswerId(Integer answerId){}
 
     @Override
     public void setAnswer(AnswerInterface answer) {

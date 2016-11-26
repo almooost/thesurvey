@@ -2,8 +2,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-<h2>Seite: ${site}, Aktion: ${action}</h2>
-
 
 <div class="row">
     <div class="col-md-6 col-xs-12">
@@ -53,7 +51,7 @@
                     <div class="ln_solid"></div>
                     <div class="form-group">
                         <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
-                            <button class="btn btn-primary"><a href="/" style="color:white;">Abbrechen</a></button>
+                            <button type="reset" class="btn btn-primary"><a href="/" style="color:white;">Abbrechen</a></button>
                             <button type="submit" class="btn btn-success">Speichern</button>
                         </div>
                     </div>

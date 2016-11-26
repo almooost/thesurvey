@@ -1,8 +1,10 @@
 package ch.thesurvey.controller;
 
+import ch.thesurvey.model.Answer;
 import ch.thesurvey.model.Question;
-import ch.thesurvey.model.interfaces.ModelInterface;
-import ch.thesurvey.model.interfaces.QuestionInterface;
+import ch.thesurvey.model.SurveyQuestion;
+import ch.thesurvey.model.interfaces.*;
+import ch.thesurvey.service.interfaces.AnswerServiceInterface;
 import ch.thesurvey.service.interfaces.QuestionServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,29 +30,24 @@ public class QuestionController {
     @Autowired
     QuestionServiceInterface questionService;
 
+    @Autowired
+    AnswerServiceInterface answerService;
+
     List<ModelInterface> questionList;
 
     @RequestMapping("/")
-    public String getSurvey(@RequestParam(value = "action", required = false, defaultValue = "manage")String action,
-                            ModelMap model,
+    public String getSurvey(ModelMap model,
                             HttpSession httpSession){
 
-        switch (action){
-            case "manage":
-                questionList = questionService.findAll(new Question());
-                break;
-            default:
-                questionList = questionService.findAll(new Question());
-        }
+        questionList = questionService.findAll(new Question());
 
-        model.addAttribute("action", action);
         model.addAttribute("questionList", questionList);
         model.addAttribute("site","question");
         return "index";
     }
 
     @RequestMapping(value = "/edit", method = RequestMethod.GET)
-    public String editQuestion(@RequestParam(value = "id", required = false, defaultValue = "")String id,
+    public String editQuestion(@RequestParam(value = "id", required = true)String id,
                                  ModelMap model,
                                  HttpSession httpSession){
 
@@ -58,11 +55,18 @@ public class QuestionController {
 
         if(id.matches("^[\\d+]$")) {
             question = questionService.findById(Integer.parseInt(id));
+
+            List<ModelInterface> answerList = answerService.findAll(new Answer());
+
+            model.addAttribute("answerList", answerList);
+            model.addAttribute("question", question);
+            model.addAttribute("site","question_edit");
+            return "index";
         }
 
-        model.addAttribute("question", question);
-        model.addAttribute("site","question_edit");
-        return "index";
+        return "redirect:/app/questions/";
+
+
     }
 
     @RequestMapping(value = "/new", method = RequestMethod.GET)
@@ -117,5 +121,31 @@ public class QuestionController {
         model.addAttribute("site", "questions");
         model.addAttribute("questionList",questionList);
         return "redirect:/app/questions";
+    }
+
+    @RequestMapping(value = "/answers/add")
+    public String addAnswer(@RequestParam(value = "id", required = true) String id,
+                            @RequestParam(value = "answer_id", required = true) String answerId,
+                            ModelMap model,
+                            HttpSession httpSession){
+
+        System.out.println("Reached addQuestion, id: "+id);
+        System.out.println("Reached addQuestion, answerId: "+answerId);
+
+        if(id.matches("^[\\d+]$") && answerId.matches("^[\\d+]$")) {
+            QuestionInterface question = (QuestionInterface)questionService.findById(Integer.parseInt(id));
+            AnswerInterface answer = (AnswerInterface)answerService.findById(Integer.parseInt(answerId));
+
+            question.setAnswer(answer);
+            questionService.persist(question);
+
+            model.addAttribute("info", "Antwort zur Frage hinzugefügt");
+            model.addAttribute("question", question);
+            model.addAttribute("id", id);
+            return "redirect:/app/questions/edit";
+
+        }
+        return "redirect:/app/questions/";
+
     }
 }

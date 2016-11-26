@@ -1,14 +1,9 @@
 package ch.thesurvey.controller;
 
-import ch.thesurvey.model.Contact;
-import ch.thesurvey.model.Survey;
-import ch.thesurvey.model.SurveyContact;
-import ch.thesurvey.model.SurveyQuestion;
+import ch.thesurvey.model.*;
 import ch.thesurvey.model.interfaces.*;
-import ch.thesurvey.service.interfaces.ContactServiceInterface;
-import ch.thesurvey.service.interfaces.SurveyContactServiceInterface;
-import ch.thesurvey.service.interfaces.SurveyQuestionServiceInterface;
-import ch.thesurvey.service.interfaces.SurveyServiceInterface;
+import ch.thesurvey.service.interfaces.*;
+import ch.thesurvey.utility.Mail;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -34,11 +29,16 @@ public class SurveyController {
 
     private List<ModelInterface> surveyList;
     private List<ModelInterface> contactList;
+    private List<ModelInterface> questionList;
+
     @Autowired
     private SurveyServiceInterface surveyService;
 
     @Autowired
     private ContactServiceInterface contactService;
+
+    @Autowired
+    private QuestionServiceInterface questionService;
 
     @Autowired
     private SurveyContactServiceInterface surveyContactService;
@@ -63,21 +63,24 @@ public class SurveyController {
     }
 
     @RequestMapping(value = "/edit", method = RequestMethod.GET)
-    public String editSurvey(@RequestParam(value = "id", required = false, defaultValue = "")String id,
+    public String editSurvey(@RequestParam(value = "id", required = true)String id,
                             ModelMap model,
                             HttpSession httpSession){
 
-        ModelInterface survey = null;
-
         if(id.matches("^[\\d+]$")) {
-            survey = surveyService.findById(Integer.parseInt(id));
+            SurveyInterface survey = (SurveyInterface)surveyService.findById(Integer.parseInt(id));
+            List<SurveyContactInterface> surveyContactList = survey.getSurveyContacts();
+            List<SurveyQuestionInterface> surveyQuestionList = survey.getSurveyQuestions();
+            model.addAttribute("surveyContactList", surveyContactList);
+            model.addAttribute("surveyQuestionList", surveyQuestionList);
+            model.addAttribute("survey", survey);
         }
-        List<SurveyContactInterface> surveyContactList = surveyContactService.findBySurvey(survey);
         contactList = contactService.findAll(new Contact());
+        questionList = questionService.findAll(new Question());
 
-        model.addAttribute("surveyContactList", surveyContactList);
         model.addAttribute("contactList", contactList);
-        model.addAttribute("survey", survey);
+        model.addAttribute("questionList", questionList);
+        model.addAttribute("id", id);
         model.addAttribute("site","survey_edit");
         return "index";
     }
@@ -96,8 +99,7 @@ public class SurveyController {
     }
 
     @RequestMapping(value = "/contacts/add", method = RequestMethod.GET)
-    public String addContact(@RequestParam(value = "action", required = false, defaultValue = "add_contact")String action,
-                             @RequestParam(value = "id", required = true)String id,
+    public String addContact(@RequestParam(value = "id", required = true)String id,
                              @RequestParam(value = "contact_id", required = true) String contactId,
                             ModelMap model,
                             HttpSession httpSession){
@@ -116,35 +118,84 @@ public class SurveyController {
             surveyContact.setTokenUntil(survey.getEndDate());
 
             surveyContactService.persist(surveyContact);
-            model.addAttribute("info", "Kontakt erfolgreich zur Liste hinzugefügt");
+            model.addAttribute("info", "Kontakt erfolgreich zur Umfrage hinzugefügt");
             model.addAttribute("survey", survey);
         }
 
         model.addAttribute("username", "sam");
         model.addAttribute("site", "survey_new");
+        model.addAttribute("id", id);
+        return "redirect:/app/surveys/edit";
+    }
+
+    @RequestMapping(value = "/contacts/delete", method = RequestMethod.GET)
+    public String deleteContact(@RequestParam(value = "action", required = false, defaultValue = "delete_contact")String action,
+                             @RequestParam(value = "id", required = true)String id,
+                             @RequestParam(value = "contact_id", required = true) String contactId,
+                             ModelMap model,
+                             HttpSession httpSession){
+
+        System.out.println("Reached deleteContact, id: "+id);
+        System.out.println("Reached deleteContact, contactId: "+contactId);
+
+        if(id.matches("^[\\d+]$") && contactId.matches("^[\\d+]$")) {
+            SurveyContactInterface surveyContact = (SurveyContactInterface)surveyContactService.findById(Integer.parseInt(contactId));
+            surveyContactService.remove(surveyContact);
+
+            model.addAttribute("info", "Kontakt von Umfrage gelöscht");
+            model.addAttribute("id", id);
+            return "redirect:/app/surveys/edit";
+        }
         return "redirect:/app/surveys/";
     }
 
-    @RequestMapping(value = "/add_question", method = RequestMethod.GET)
-    public String addQuestion(@RequestParam(value = "action", required = false, defaultValue = "add_question")String action,
-                             @RequestParam(value = "id", required = true)String id,
+    @RequestMapping(value = "/questions/add", method = RequestMethod.GET)
+    public String addQuestion(@RequestParam(value = "id", required = true)String id,
                              @RequestParam(value = "question_id", required = true) String questionId,
                              ModelMap model,
                              HttpSession httpSession){
 
+        System.out.println("Reached addQuestion, id: "+id);
+        System.out.println("Reached addQuestion, questionId: "+questionId);
+
         if(id.matches("^[\\d+]$") && questionId.matches("^[\\d+]$")) {
             SurveyQuestionInterface surveyQuestion = new SurveyQuestion();
-            QuestionInterface question = (QuestionInterface)surveyQuestionService.findById(Integer.parseInt(questionId));
+
+            SurveyInterface survey = (SurveyInterface)surveyService.findById(Integer.parseInt(id));
+            surveyQuestion.setSurvey(survey);
+            QuestionInterface question = (QuestionInterface)questionService.findById(Integer.parseInt(questionId));
+            System.out.println("Got question from db, name:"+question.getName());
             surveyQuestion.setQuestion(question);
+
             surveyQuestionService.persist(surveyQuestion);
-            model.addAttribute("info", "Kontakt erfolgreich zur Liste hinzugefügt");
+            model.addAttribute("info", "Frage erfolgreich zur Umfrage hinzugefügt");
+            model.addAttribute("survey", survey);
+            model.addAttribute("id", id);
+            return "redirect:/app/surveys/edit";
+
         }
 
-        SurveyInterface survey = (SurveyInterface)surveyService.findById(Integer.parseInt(id));
-
         model.addAttribute("username", "sam");
-        model.addAttribute("site", "survey_new");
-        model.addAttribute("survey", survey);
+        return "redirect:/app/surveys/";
+    }
+
+    @RequestMapping(value = "/questions/delete", method = RequestMethod.GET)
+    public String deleteQuestion(@RequestParam(value = "id", required = true)String id,
+                                @RequestParam(value = "question_id", required = true) String questionId,
+                                ModelMap model,
+                                HttpSession httpSession){
+
+        System.out.println("Reached deleteQuestion, id: "+id);
+        System.out.println("Reached deleteQuestion, questionId: "+questionId);
+
+        if(id.matches("^[\\d+]$") && questionId.matches("^[\\d+]$")) {
+            SurveyQuestionInterface surveyQuestion = (SurveyQuestionInterface)surveyQuestionService.findById(Integer.parseInt(questionId));
+            surveyQuestionService.remove(surveyQuestion);
+
+            model.addAttribute("info", "Frage von Umfrage gelöscht");
+            model.addAttribute("id", id);
+            return "redirect:/app/surveys/edit";
+        }
         return "redirect:/app/surveys/";
     }
 
@@ -196,8 +247,7 @@ public class SurveyController {
     }
 
     @RequestMapping(value = "/execute")
-    public String sendMail(@RequestParam(value = "action", required = false)String action,
-                           @RequestParam(value = "id", required = false) String id,
+    public String sendMail(@RequestParam(value = "id", required = false) String id,
                            ModelMap model,
                            HttpSession httpSession)
     {
@@ -211,8 +261,11 @@ public class SurveyController {
         String msg = "";
 
         try {
+            Mail mail = new Mail();
+            mail.setSurvey(survey);
+            mail.setContactList(survey.getSurveyContacts());
 
-            if (survey.execute()) {
+            if (mail.send()) {
                 msg = "Umfrage wurde erfolgreich ausgeführt";
                 surveyService.persist(survey);
             } else {

@@ -1,10 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <br /><br />
-<a href="/app/answers/new"><button class="btn btn-primary">Neue Frage</button></a>
-
-<br /><br />
-<h2>Seite: ${site}, Aktion: ${action}</h2>
+<a href="/app/answers/new"><button class="btn btn-primary">Neue Antwort</button></a>
 
 <div class="info"></div>
 

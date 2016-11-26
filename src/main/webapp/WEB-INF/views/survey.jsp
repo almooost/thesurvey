@@ -4,9 +4,6 @@
 <br /><br />
 <a href="/app/surveys/new"><button class="btn btn-primary">Neue Umfrage</button></a>
 
-<br /><br />
-<h2>Seite: ${site}, Aktion: ${action}</h2>
-
 <h3>Liste der vorhandenen Umfragen</h3>
 <table class="table table-striped jambo_table bulk_action">
     <thead>

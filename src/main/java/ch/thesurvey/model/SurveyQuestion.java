@@ -4,6 +4,7 @@ import ch.thesurvey.model.interfaces.QuestionInterface;
 import ch.thesurvey.model.interfaces.SurveyContactInterface;
 import ch.thesurvey.model.interfaces.SurveyInterface;
 import ch.thesurvey.model.interfaces.SurveyQuestionInterface;
+import org.hibernate.annotations.Columns;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 
@@ -36,9 +37,8 @@ public class SurveyQuestion implements SurveyQuestionInterface, Serializable {
         this.id = id;
     }
 
-    @ManyToOne(cascade = CascadeType.ALL, targetEntity = Survey.class)
-    @JoinColumn(name = "id", insertable = false, updatable = false)
-    @NotFound(action = NotFoundAction.IGNORE)
+    @ManyToOne(targetEntity = Survey.class)
+    @JoinColumn(name = "survey_id", insertable = false, updatable = false, referencedColumnName = "id")
     public SurveyInterface getSurvey() {
         return survey;
     }
@@ -47,9 +47,14 @@ public class SurveyQuestion implements SurveyQuestionInterface, Serializable {
         this.survey = survey;
     }
 
-    @ManyToOne(cascade = CascadeType.ALL, targetEntity = Question.class)
-    @JoinColumn(name = "id", insertable = false, updatable = false)
-    @NotFound(action = NotFoundAction.IGNORE)
+    @Column(name = "survey_id")
+    public Integer getSurveyId(){return survey.getId();}
+
+    public void setSurveyId(Integer surveyId){}
+
+
+    @ManyToOne(targetEntity = Question.class)
+    @JoinColumn(name = "question_id", insertable = false, updatable = false, referencedColumnName = "id")
     public QuestionInterface getQuestion() {
         return question;
     }
@@ -57,6 +62,11 @@ public class SurveyQuestion implements SurveyQuestionInterface, Serializable {
     public void setQuestion(QuestionInterface question) {
         this.question = question;
     }
+
+    @Column(name = "question_id")
+    public Integer getQuestionId(){return question.getId();}
+
+    public void setQuestionId(Integer questionId){}
 
     @Override
     @Transient

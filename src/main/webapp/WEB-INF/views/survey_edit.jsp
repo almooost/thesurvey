@@ -2,8 +2,8 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-<h2>Seite: ${site}, Aktion: ${action}</h2>
-
+<br /><br />
+<a href="/app/surveys/execute?id=${survey.id}"><button class="btn btn-primary">Ausführen</button></a>
 
 <div class="row">
     <!-- col-md-6 -->
@@ -66,12 +66,9 @@
                     <hr>
                     <h2>Fragen</h2>
                     <div class="form-group">
-                        <table class="table table-striped jambo_table bulk_action">
+                        <table class="table table-striped jambo_table">
                             <thead>
                             <tr class="headings">
-                                <th>
-                                    <div class="icheckbox_flat-green" style="position: relative;"><input type="checkbox" id="check-all" class="flat" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
-                                </th>
                                 <th class="column-title">Name </th>
                                 <th class="column-title">Beschreibung</th>
                                 <th class="column-title">Typ</th>
@@ -85,13 +82,8 @@
                             </thead>
 
                             <tbody>
-                            <c:forEach items="${survey.surveyQuestions}" var="surveyQuestion">
+                            <c:forEach items="${surveyQuestionList}" var="surveyQuestion">
                                 <tr class="even pointer">
-                                    <td class="a-center ">
-                                        <div class="icheckbox_flat-green" style="position: relative;">
-                                            <input type="checkbox" class="flat" name="table_records" style="position: absolute; opacity: 0;" class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;" />
-                                        </div>
-                                    </td>
                                     <td>${surveyQuestion.question.name}</td>
                                     <td>${surveyQuestion.question.description}</td>
                                     <td>${surveyQuestion.question.type}</td>
@@ -106,12 +98,9 @@
                     <hr>
                     <h2>Kontakte</h2>
                     <div class="form-group">
-                        <table class="table table-striped jambo_table bulk_action">
+                        <table class="table table-striped jambo_table">
                             <thead>
                             <tr class="headings">
-                                <th>
-                                    <div class="icheckbox_flat-green" style="position: relative;"><input type="checkbox" id="check-all" class="flat" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
-                                </th>
                                 <th class="column-title">Vorname </th>
                                 <th class="column-title">Name</th>
                                 <th class="column-title">E-Mail</th>
@@ -127,18 +116,13 @@
                             <tbody>
                             <c:forEach items="${surveyContactList}" var="surveyContact">
                                 <tr class="even pointer">
-                                    <td class="a-center ">
-                                        <div class="icheckbox_flat-green" style="position: relative;">
-                                            <input type="checkbox" class="flat" name="table_records" style="position: absolute; opacity: 0;" class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;" />
-                                        </div>
-                                    </td>
                                     <td>${surveyContact.contact.givenname}</td>
                                     <td>${surveyContact.contact.name}</td>
                                     <td>${surveyContact.contact.email}</td>
                                     <td>${surveyContact.contact.department}</td>
                                     <td class=" last">
-                                        <a href="/app/survey/contacts/edit?id=${surveyContact.contact.id}"><i class="fa fa-edit"></i></a>
-                                        <a href="/app/survey/contacts/delete?id=${surveyContact.contact.id}"><i class="fa fa-trash"></i></a>
+                                        <a href="/app/surveys/contacts/edit?id=${survey.id}&contact_id=${surveyContact.id}"><i class="fa fa-edit"></i></a>
+                                        <a href="/app/surveys/contacts/delete?id=${survey.id}&contact_id=${surveyContact.id}"><i class="fa fa-trash"></i></a>
                                     </td>
                                 </tr>
                             </c:forEach>
@@ -195,12 +179,9 @@
                 <div class="clearfix"></div>
             </div>
             <div class="form-group x_content">
-                <table class="table table-striped jambo_table bulk_action">
+                <table class="table table-striped jambo_table">
                     <thead>
                     <tr class="headings">
-                        <th>
-                            <div class="icheckbox_flat-green" style="position: relative;"><input type="checkbox" id="check-all" class="flat" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
-                        </th>
                         <th class="column-title">Vorname </th>
                         <th class="column-title">Name</th>
                         <th class="column-title">E-Mail</th>
@@ -213,11 +194,6 @@
                     <tbody>
                     <c:forEach items="${contactList}" var="contact">
                         <tr class="even pointer">
-                            <td class="a-center ">
-                                <div class="icheckbox_flat-green" style="position: relative;">
-                                    <input type="checkbox" class="flat" name="table_records" style="position: absolute; opacity: 0;" class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;" />
-                                </div>
-                            </td>
                             <td>${contact.givenname}</td>
                             <td>${contact.name}</td>
                             <td>${contact.email}</td>
@@ -233,18 +209,15 @@
                 </table>
             </div><!-- /add contact -->
 
-            <!-- add contact -->
+            <!-- add question -->
             <div class="x_title">
                 <h2>Frage hinzuf&uuml;gen</h2>
                 <div class="clearfix"></div>
             </div>
             <div class="form-group x_content">
-                <table class="table table-striped jambo_table bulk_action">
+                <table class="table table-striped jambo_table">
                     <thead>
                     <tr class="headings">
-                        <th>
-                            <div class="icheckbox_flat-green" style="position: relative;"><input type="checkbox" id="check-all" class="flat" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
-                        </th>
                         <th class="column-title">Name</th>
                         <th class="column-title">Typ</th>
                         <th class="column-title">Beschreibung</th>
@@ -256,16 +229,11 @@
                     <tbody>
                     <c:forEach items="${questionList}" var="question">
                         <tr class="even pointer">
-                            <td class="a-center ">
-                                <div class="icheckbox_flat-green" style="position: relative;">
-                                    <input type="checkbox" class="flat" name="table_records" style="position: absolute; opacity: 0;" class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;" />
-                                </div>
-                            </td>
-                            <td>${contact.name}</td>
-                            <td>${contact.type}</td>
-                            <td>${contact.description}</td>
+                            <td>${question.name}</td>
+                            <td>${question.type}</td>
+                            <td>${question.description}</td>
                             <td class=" last">
-                                <a href="/app/survey/contacts/add_question?id=${survey_id}&question_id=${question.id}">
+                                <a href="/app/surveys/questions/add?id=${survey.id}&question_id=${question.id}">
                                     <i class="fa fa-plus"></i>
                                 </a>
                             </td>
@@ -273,7 +241,7 @@
                     </c:forEach>
                     </tbody>
                 </table>
-            </div><!-- /add contact -->
+            </div><!-- /add question -->
 
         </div><!-- /.x_panel -->
     </div><!-- /.col-md-6 -->

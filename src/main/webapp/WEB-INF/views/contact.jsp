@@ -1,9 +1,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <h1>Kontakt Seite</h1>
-<h2>Seite: ${site}, Aktion: ${action}</h2>
 
 <div class="info"></div>
-
+<br /><br />
+<a href="/app/contacts/new"><button class="btn btn-primary">Neuer Kontakt</button></a>
 
 <h3>Liste der vorhandenen Kontakte</h3>
 

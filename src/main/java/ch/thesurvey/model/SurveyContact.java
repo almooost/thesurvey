@@ -36,7 +36,7 @@ public class SurveyContact implements SurveyContactInterface, Serializable {
     }
 
     @ManyToOne(targetEntity = Survey.class)
-    @JoinColumn(name = "id", insertable = false, updatable = false)
+    @JoinColumn(name = "survey_id", insertable = false, updatable = false, referencedColumnName = "id")
     public SurveyInterface getSurvey() {
         return survey;
     }
@@ -45,25 +45,23 @@ public class SurveyContact implements SurveyContactInterface, Serializable {
         this.survey = survey;
     }
 
-    //@Column(name = "survey_id")
-    //public Integer getSurveyId(){return survey.getId();}
+    @Column(name = "survey_id")
+    public Integer getSurveyId(){return survey.getId();}
 
-    //public void setSurveyId(Integer surveyId){survey.setId(surveyId);}
+    public void setSurveyId(Integer surveyId){}
 
     @ManyToOne(targetEntity = Contact.class)
-    @JoinColumn(name = "id", insertable = false, updatable = false)
+    @JoinColumn(name = "contact_id", insertable = false, updatable = false, referencedColumnName = "id")
     public ContactInterface getContact() {
         return contact;
     }
 
-    public void setContact(ContactInterface contact) {
-        this.contact = contact;
-    }
+    public void setContact(ContactInterface contact) {this.contact = contact;}
 
-    //@Column(name = "contact_id")
-    //public Integer getContactId(){return  contact.getId();}
+    @Column(name = "contact_id")
+    public Integer getContactId(){return contact.getId();}
 
-    //public void setContactId(Integer contactId){contact.setId(contactId);}
+    public void setContactId(Integer contactId){}
 
     @Column(name = "token")
     public String getToken() {

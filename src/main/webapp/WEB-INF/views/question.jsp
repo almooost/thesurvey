@@ -2,11 +2,10 @@
 <br /><br />
 <a href="/app/questions/new"><button class="btn btn-primary">Neue Frage</button></a>
 <br /><br />
-<h2>Seite: ${site}, Aktion: ${action}</h2>
 
 <div class="info"></div>
 
-<h3>Liste der vorhandenen Antworten</h3>
+<h3>Liste der vorhandenen Fragen</h3>
 <table class="table table-striped jambo_table bulk_action">
     <thead>
     <tr class="headings">
@@ -39,8 +38,8 @@
                 <td>${question.type}</td>
                 <td>${question.status}</td>
                 <td class=" last">
-                    <a href="/app/questions/view?id=${question.id}" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Bearbeiten </a>
-                    <a href="/app/questions/delete?action=delete&id=${question.id}" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> Löschen </a>
+                    <a href="/app/questions/edit?id=${question.id}" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Bearbeiten </a>
+                    <a href="/app/questions/delete?id=${question.id}" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> Löschen </a>
                 </td>
             </tr>
     </c:forEach>

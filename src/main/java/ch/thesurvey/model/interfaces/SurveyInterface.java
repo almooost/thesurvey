@@ -8,7 +8,7 @@ import java.util.List;
  * Baisc survey type, extends ModelInterface
  * @author Samuel Alfano
  * @date 11.11.2016
- * @version v0.1
+ * @version v0.2
  */
 public interface SurveyInterface extends ModelInterface {
 
@@ -113,13 +113,5 @@ public interface SurveyInterface extends ModelInterface {
      * @param description
      */
     void setDescription(String description);
-
-    /**
-     * Execute survey
-     * Set token for each employee
-     * Send emails to employees
-     * @return boolean
-     */
-    boolean execute() throws MessagingException;
 
 }
