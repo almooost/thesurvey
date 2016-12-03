@@ -16,7 +16,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by sam on 08.11.16.
+ * Custom authentication provider
+ * Check username an password on a custom way
+ * @author Samuel Alfano
+ * @version v0.2
  */
 @Component
 public class CustomAuthenticationProvider implements AuthenticationProvider {

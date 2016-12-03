@@ -26,6 +26,8 @@ public class SurveyQuestion implements SurveyQuestionInterface, Serializable {
     private SurveyInterface survey;
     private QuestionInterface question;
 
+    private String answer;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name ="id")
@@ -94,6 +96,5 @@ public class SurveyQuestion implements SurveyQuestionInterface, Serializable {
 
     @Override
     public void setTimestamp(Date datetime) {}
-
 
 }

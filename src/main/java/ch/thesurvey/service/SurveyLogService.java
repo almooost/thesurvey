@@ -9,7 +9,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- * Created by sam on 22.11.16.
+ * General service class for logging filled out survey
+ * @author Samuel Alfano
+ * @version v0.1
  */
 @Service
 public class SurveyLogService implements SurveyLogServiceInterface {

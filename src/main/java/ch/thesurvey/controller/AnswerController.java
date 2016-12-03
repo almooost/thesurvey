@@ -1,6 +1,8 @@
 package ch.thesurvey.controller;
 
 import ch.thesurvey.model.Answer;
+import ch.thesurvey.model.MultipleChoice;
+import ch.thesurvey.model.TextAnswer;
 import ch.thesurvey.model.interfaces.AnswerInterface;
 import ch.thesurvey.model.interfaces.ModelInterface;
 import ch.thesurvey.service.interfaces.AnswerServiceInterface;
@@ -19,7 +21,7 @@ import java.util.List;
  * Serves paths for answers
  * @author Samuel Alfano
  * @date 28.10.2016
- * @version v0.1
+ * @version v0.2
  */
 @Controller
 @RequestMapping(value = "/app/answers/")
@@ -31,27 +33,20 @@ public class AnswerController {
     List<ModelInterface> answerList;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String getAnswer(@RequestParam(value = "action", required = false, defaultValue = "manage")String action,
-                            ModelMap model,
+    public String getAnswer(ModelMap model,
                             HttpSession httpSession){
 
-        switch (action){
-            case "manage":
-                answerList = answerService.findAll(new Answer());
-                break;
-            default:
-                answerList = answerService.findAll(new Answer());
-        }
+        answerList = answerService.findAll(new Answer());
+
         model.addAttribute("answerList",answerList);
-        model.addAttribute("action", action);
         model.addAttribute("site","answer");
         return "index";
     }
 
     @RequestMapping(value = "/edit", method = RequestMethod.GET)
-    public String editAnswer(@RequestParam(value = "id", required = false, defaultValue = "")String id,
-                               ModelMap model,
-                               HttpSession httpSession){
+    public String editAnswer(@RequestParam(value = "id", required = true)String id,
+                             ModelMap model,
+                             HttpSession httpSession){
 
         ModelInterface answer = null;
 
@@ -65,9 +60,9 @@ public class AnswerController {
     }
 
     @RequestMapping(value = "/new", method = RequestMethod.GET)
-    public String newAnswer(@RequestParam(value = "action", required = false, defaultValue = "new")String action,
-                            ModelMap model,
+    public String newAnswer(ModelMap model,
                             HttpSession httpSession){
+
         Answer answer = new Answer();
         answer.setType("text");
 
@@ -81,6 +76,12 @@ public class AnswerController {
     public String addAnswer(@ModelAttribute Answer answer,
                             ModelMap model,
                             HttpSession httpSession){
+
+        if(answer.getType().contentEquals("Multiple-Choice"))
+            answer.setAnswerType(new MultipleChoice());
+        else
+            answer.setAnswerType(new TextAnswer());
+
         answer.setStatus(1);
         answerService.persist(answer);
         answerList = answerService.findAll(new Answer());
@@ -95,30 +96,26 @@ public class AnswerController {
     }
 
     @RequestMapping(value = "/delete", method = RequestMethod.GET)
-    public String deleteAnswer(@RequestParam(value = "action", required = true, defaultValue = "delte")String action,
-                               @RequestParam(value = "id", required = true) String id,
+    public String deleteAnswer(@RequestParam(value = "id", required = true) String id,
                                 ModelMap model,
                                 HttpSession httpSession){
 
-        if(action.contentEquals("delete")) {
+        ModelInterface answer = answerService.findById(Integer.parseInt(id));
 
-            ModelInterface answer = answerService.findById(Integer.parseInt(id));
-
-            if(answer instanceof AnswerInterface && answer.getName() != null){
-                answerService.remove(answer);
-                model.addAttribute("info", "Antwort gelöscht");
-            }
-            else {
-                model.addAttribute("warning", "Antwort konnte nicht gelöscht werden!");
-            }
-
+        if(answer instanceof AnswerInterface && answer.getName() != null){
+            answerService.remove(answer);
+            model.addAttribute("info", "Antwort gelöscht");
         }
+        else {
+            model.addAttribute("warning", "Antwort konnte nicht gelöscht werden!");
+        }
+
         answerList = answerService.findAll(new Answer());
 
         model.addAttribute("site", "answers");
         model.addAttribute("answerList",answerList);
 
-        return "redirect:/app/answers";
+        return "redirect:/app/answers/";
 
     }
 }

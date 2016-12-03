@@ -40,8 +40,9 @@
             <td><fmt:formatDate value="${survey.endDate}" type="date" pattern="dd.MM.yyyy" /></td>
             <td>${survey.status}</td>
             <td class=" last">
+                <a href="/app/surveys/execute?id=${survey.id}" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Ausf&uuml;hren </a>
                 <a href="/app/surveys/edit?id=${survey.id}" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Bearbeiten </a>
-                <a href="/app/surveys/delete?action=delete&id=${survey.id}" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> Löschen </a>
+                <a href="/app/surveys/delete?action=delete&id=${survey.id}" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> L&ouml;schen </a>
             </td>
         </tr>
     </c:forEach>

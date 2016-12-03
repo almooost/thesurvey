@@ -42,7 +42,7 @@
                         <td>
                             <a>Umfrage</a>
                             <br>
-                            <small>Ausgeführt 01.01.2015</small>
+                            <small>Ausgef&uuml;hrt 01.01.2015</small>
                         </td>
                         <td>
                             <ul class="list-inline">
@@ -64,10 +64,10 @@
                             <div class="progress progress_sm">
                                 <div class="progress-bar bg-green" role="progressbar" data-transitiongoal="57" style="width: 57%;" aria-valuenow="56"></div>
                             </div>
-                            <small>57% Ausgefüllt</small>
+                            <small>57% Ausgef&uuml;llt</small>
                         </td>
                         <td>
-                            <button type="button" class="btn btn-success btn-xs">Success</button>
+                            <button type="button" class="btn btn-success btn-xs">Läuft</button>
                         </td>
                         <td>
                             <a href="#" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> View </a>
@@ -80,7 +80,7 @@
                         <td>
                             <a>Umfrage</a>
                             <br>
-                            <small>Ausgeführt 01.01.2015</small>
+                            <small>Ausgef&uuml;hrt 01.01.2015</small>
                         </td>
                         <td>
                             <ul class="list-inline">
@@ -96,10 +96,10 @@
                             <div class="progress progress_sm">
                                 <div class="progress-bar bg-green" role="progressbar" data-transitiongoal="47" style="width: 47%;" aria-valuenow="46"></div>
                             </div>
-                            <small>47% Ausgefüllt</small>
+                            <small>47% Ausgef&uuml;llt</small>
                         </td>
                         <td>
-                            <button type="button" class="btn btn-success btn-xs">Success</button>
+                            <button type="button" class="btn btn-success btn-xs">Läuft</button>
                         </td>
                         <td>
                             <a href="#" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> View </a>
@@ -112,7 +112,7 @@
                         <td>
                             <a>Umfrage</a>
                             <br>
-                            <small>Ausgeführt 01.01.2015</small>
+                            <small>Ausgef&uuml;hrt 01.01.2015</small>
                         </td>
                         <td>
                             <ul class="list-inline">
@@ -131,10 +131,10 @@
                             <div class="progress progress_sm">
                                 <div class="progress-bar bg-green" role="progressbar" data-transitiongoal="77" style="width: 77%;" aria-valuenow="75"></div>
                             </div>
-                            <small>77% Ausgefüllt</small>
+                            <small>77% Ausgef&uuml;llt</small>
                         </td>
                         <td>
-                            <button type="button" class="btn btn-success btn-xs">Success</button>
+                            <button type="button" class="btn btn-success btn-xs">Läuft</button>
                         </td>
                         <td>
                             <a href="#" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> View </a>
@@ -147,7 +147,7 @@
                         <td>
                             <a>Umfrage</a>
                             <br>
-                            <small>Ausgeführt 01.01.2015</small>
+                            <small>Ausgef&uuml;hrt 01.01.2015</small>
                         </td>
                         <td>
                             <ul class="list-inline">
@@ -169,10 +169,10 @@
                             <div class="progress progress_sm">
                                 <div class="progress-bar bg-green" role="progressbar" data-transitiongoal="60" style="width: 60%;" aria-valuenow="59"></div>
                             </div>
-                            <small>60% Ausgefüllt</small>
+                            <small>60% Ausgef&uuml;llt</small>
                         </td>
                         <td>
-                            <button type="button" class="btn btn-success btn-xs">Success</button>
+                            <button type="button" class="btn btn-success btn-xs">Läuft</button>
                         </td>
                         <td>
                             <a href="#" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> View </a>
@@ -185,7 +185,7 @@
                         <td>
                             <a>Umfrage</a>
                             <br>
-                            <small>Ausgeführt 01.01.2015</small>
+                            <small>Ausgef&uuml;hrt 01.01.2015</small>
                         </td>
                         <td>
                             <ul class="list-inline">
@@ -204,10 +204,10 @@
                             <div class="progress progress_sm">
                                 <div class="progress-bar bg-green" role="progressbar" data-transitiongoal="12" style="width: 12%;" aria-valuenow="11"></div>
                             </div>
-                            <small>12% Ausgefüllt</small>
+                            <small>12% Ausgef&uuml;llt</small>
                         </td>
                         <td>
-                            <button type="button" class="btn btn-success btn-xs">Success</button>
+                            <button type="button" class="btn btn-success btn-xs">Läuft</button>
                         </td>
                         <td>
                             <a href="#" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> View </a>
@@ -220,7 +220,7 @@
                         <td>
                             <a>Umfrage</a>
                             <br>
-                            <small>Ausgeführt 01.01.2015</small>
+                            <small>Ausgef&uuml;hrt 01.01.2015</small>
                         </td>
                         <td>
                             <ul class="list-inline">
@@ -242,10 +242,10 @@
                             <div class="progress progress_sm">
                                 <div class="progress-bar bg-green" role="progressbar" data-transitiongoal="35" style="width: 35%;" aria-valuenow="34"></div>
                             </div>
-                            <small>35% Ausgefüllt</small>
+                            <small>35% Ausgef&uuml;llt</small>
                         </td>
                         <td>
-                            <button type="button" class="btn btn-success btn-xs">Success</button>
+                            <button type="button" class="btn btn-success btn-xs">Läuft</button>
                         </td>
                         <td>
                             <a href="#" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> View </a>
@@ -258,7 +258,7 @@
                         <td>
                             <a>Umfrage</a>
                             <br>
-                            <small>Ausgeführt 01.01.2015</small>
+                            <small>Ausgef&uuml;hrt 01.01.2015</small>
                         </td>
                         <td>
                             <ul class="list-inline">
@@ -274,10 +274,10 @@
                             <div class="progress progress_sm">
                                 <div class="progress-bar bg-green" role="progressbar" data-transitiongoal="87" style="width: 87%;" aria-valuenow="86"></div>
                             </div>
-                            <small>87% Ausgefüllt</small>
+                            <small>87% Ausgef&uuml;llt</small>
                         </td>
                         <td>
-                            <button type="button" class="btn btn-success btn-xs">Success</button>
+                            <button type="button" class="btn btn-success btn-xs">Läuft</button>
                         </td>
                         <td>
                             <a href="#" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> View </a>
@@ -290,7 +290,7 @@
                         <td>
                             <a>Umfrage</a>
                             <br>
-                            <small>Ausgeführt 01.01.2015</small>
+                            <small>Ausgef&uuml;hrt 01.01.2015</small>
                         </td>
                         <td>
                             <ul class="list-inline">
@@ -309,10 +309,10 @@
                             <div class="progress progress_sm">
                                 <div class="progress-bar bg-green" role="progressbar" data-transitiongoal="77" style="width: 77%;" aria-valuenow="75"></div>
                             </div>
-                            <small>77% Ausgefüllt</small>
+                            <small>77% Ausgef&uuml;llt</small>
                         </td>
                         <td>
-                            <button type="button" class="btn btn-success btn-xs">Success</button>
+                            <button type="button" class="btn btn-success btn-xs">Läuft</button>
                         </td>
                         <td>
                             <a href="#" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> View </a>
@@ -325,7 +325,7 @@
                         <td>
                             <a>Umfrage</a>
                             <br>
-                            <small>Ausgeführt 01.01.2015</small>
+                            <small>Ausgef&uuml;hrt 01.01.2015</small>
                         </td>
                         <td>
                             <ul class="list-inline">
@@ -347,10 +347,10 @@
                             <div class="progress progress_sm">
                                 <div class="progress-bar bg-green" role="progressbar" data-transitiongoal="77" style="width: 77%;" aria-valuenow="75"></div>
                             </div>
-                            <small>77% Ausgefüllt</small>
+                            <small>77% Ausgef&uuml;llt</small>
                         </td>
                         <td>
-                            <button type="button" class="btn btn-success btn-xs">Success</button>
+                            <button type="button" class="btn btn-success btn-xs">Läuft</button>
                         </td>
                         <td>
                             <a href="#" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> View </a>

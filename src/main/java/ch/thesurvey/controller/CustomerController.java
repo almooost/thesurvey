@@ -18,7 +18,7 @@ import java.util.List;
  * Serves paths for customers
  * @author Samuel Alfano
  * @date 28.10.2016
- * @version v0.1
+ * @version v0.2
  */
 @Controller
 public class CustomerController {
@@ -29,21 +29,12 @@ public class CustomerController {
     List<ModelInterface> customerList;
 
     @RequestMapping(value = "/customers", method = RequestMethod.GET)
-    public String getCustomer(@RequestParam(value = "action", required = false, defaultValue = "manage")String action,
-                              ModelMap model,
+    public String getCustomer(ModelMap model,
                               HttpSession httpSession){
 
-        switch (action){
-            case "manage":
-                customerList = customerService.findAll(new Customer());
-                break;
-            default:
-                customerList = customerService.findAll(new Customer());
-                break;
-        }
+        customerList = customerService.findAll(new Customer());
 
         model.addAttribute("customerList", customerList);
-        model.addAttribute("action", action);
         model.addAttribute("site", "customer");
         return "index";
     }

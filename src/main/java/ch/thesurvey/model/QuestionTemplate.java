@@ -8,7 +8,10 @@ import javax.persistence.*;
 import java.util.Date;
 
 /**
- * Representas an question but just as a template
+ * Represents an question but just as a template
+ * @author Samuel Alfano
+ * @date 20.11.2016
+ * @version v0.1
  */
 @Entity
 @Table(name = "question_templates")

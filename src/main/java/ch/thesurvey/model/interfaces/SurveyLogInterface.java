@@ -28,6 +28,18 @@ public interface SurveyLogInterface {
     void setQuestion(QuestionInterface question);
 
     /**
+     * get original question text
+     * @return
+     */
+    String getQuestionText();
+
+    /**
+     * Set original question text
+     * @param questionText
+     */
+    void setQuestionText(String questionText);
+
+    /**
      * Get survey from log entry
      * @return
      */
@@ -44,6 +56,24 @@ public interface SurveyLogInterface {
      * @return answer
      */
     String getAnswer();
+
+    /**
+     * Set user filled answer
+     * @param answer
+     */
+    void setAnswer(String answer);
+
+    /**
+     * Get reached point value
+     * @return
+     */
+    Integer getPoints();
+
+    /**
+     * Set new point value
+     * @param points
+     */
+    void setPoints(Integer points);
 
 
 }

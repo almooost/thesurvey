@@ -8,9 +8,11 @@ import org.springframework.security.web.context.AbstractSecurityWebApplicationIn
  * @date 08.11.2016
  * @version v0.1
  */
+/*
 public class SpringSecurityInitializer extends AbstractSecurityWebApplicationInitializer {
 
     public SpringSecurityInitializer(){
         super(SecurityConfiguration.class);
     }
 }
+*/

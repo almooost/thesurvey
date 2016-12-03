@@ -20,7 +20,7 @@ import java.util.List;
  * Serves paths for contacts
  * @author Samuel Alfano
  * @date 28.10.2016
- * @version v0.1
+ * @version v0.2
  */
 @Controller
 @RequestMapping(value = "/app/contacts/")
@@ -32,29 +32,21 @@ public class ContactController {
     List<ModelInterface> contactList;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String getContacts(@RequestParam(value = "action", required = false, defaultValue = "manage")String action,
-                              ModelMap model,
+    public String getContacts(ModelMap model,
                               HttpSession httpSession){
 
-        switch (action){
-            case "manage":
-                contactList = contactService.findAll(new Contact());
-                break;
-            default:
-                contactList = contactService.findAll(new Contact());
-                break;
-        }
+
+        contactList = contactService.findAll(new Contact());
 
         model.addAttribute("contactList", contactList);
-        model.addAttribute("action", action);
         model.addAttribute("site","contact");
         return "index";
     }
 
     @RequestMapping(value = "/edit", method = RequestMethod.GET)
     public String editContact(@RequestParam(value = "id", required = false, defaultValue = "")String id,
-                                 ModelMap model,
-                                 HttpSession httpSession){
+                              ModelMap model,
+                              HttpSession httpSession){
 
         ModelInterface contact = null;
 
@@ -68,9 +60,9 @@ public class ContactController {
     }
 
     @RequestMapping(value = "/new", method = RequestMethod.GET)
-    public String newSurvey(@RequestParam(value = "action", required = false, defaultValue = "new")String action,
-                            ModelMap model,
+    public String newSurvey(ModelMap model,
                             HttpSession httpSession){
+
         Contact contact = new Contact();
         model.addAttribute("contact", contact);
         model.addAttribute("username", "sam");
@@ -96,22 +88,18 @@ public class ContactController {
         return "redirect:/app/contacts/";
     }
 
-    @RequestMapping(value = "/delete", method = RequestMethod.POST)
-    public String deleteSurvey(@RequestParam(value = "action", required = true, defaultValue = "delte")String action,
-                               @RequestParam(value = "id", required = true) String id,
+    @RequestMapping(value = "/delete")
+    public String deleteSurvey(@RequestParam(value = "id", required = true) String id,
                                ModelMap model,
                                HttpSession httpSession){
 
-        if(action.contentEquals("delete")) {
+        ModelInterface contact = contactService.findById(Integer.parseInt(id));
 
-            ModelInterface contact = contactService.findById(Integer.parseInt(id));
-
-            if (contact instanceof ContactInterface && contact.getName() != null) {
-                contactService.remove(contact);
-                model.addAttribute("info", "Frage gelöscht");
-            } else
-                model.addAttribute("warning", "Frage konnte nicht gelöscht werden!");
-        }
+        if (contact instanceof ContactInterface && contact.getName() != null) {
+            contactService.remove(contact);
+            model.addAttribute("info", "Frage gelöscht");
+        } else
+            model.addAttribute("warning", "Frage konnte nicht gelöscht werden!");
 
         contactList = contactService.findAll(new Contact());
 

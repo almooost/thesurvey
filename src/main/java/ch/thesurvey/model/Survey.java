@@ -4,6 +4,7 @@ import ch.thesurvey.model.interfaces.*;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
@@ -40,7 +41,7 @@ public class Survey implements SurveyInterface {
     private EvaluationInterface evaluation;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name ="id")
     public Integer getId() {
         return id;
@@ -84,6 +85,7 @@ public class Survey implements SurveyInterface {
 
     @Override
     @Column(name = "date_start")
+    @DateTimeFormat(pattern = "dd.mm.yyyy")
     public Date getStartDate() {
         return start_date;
     }
@@ -95,6 +97,7 @@ public class Survey implements SurveyInterface {
 
     @Override
     @Column(name = "date_end")
+    @DateTimeFormat(pattern = "dd.mm.yyyy")
     public Date getEndDate() {
         return end_date;
     }

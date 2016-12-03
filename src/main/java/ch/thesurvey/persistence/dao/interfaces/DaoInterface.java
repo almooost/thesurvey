@@ -5,7 +5,10 @@ import ch.thesurvey.model.interfaces.ModelInterface;
 import java.util.List;
 
 /**
- * Created by sam on 11.11.16.
+ * General dao interface, serves basic methods for every dao class
+ * @author Samuel Alfano
+ * @date 25.10.2016
+ * @version v0.1
  */
 public interface DaoInterface {
 

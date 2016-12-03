@@ -19,7 +19,7 @@ import java.util.List;
  * Serves paths for users
  * @author Samuel Alfano
  * @date 28.10.2016
- * @version v0.1
+ * @version v0.2
  */
 @Controller
 public class UserController{
@@ -31,39 +31,15 @@ public class UserController{
 
 
     @RequestMapping(value = "/users", method = RequestMethod.GET)
-    public String getUser(@RequestParam(value = "action", required = false, defaultValue = "manage")String action,
-                          ModelMap model,
+    public String getUser(ModelMap model,
                           HttpSession httpSession){
 
-        switch (action){
-            case "manage":
-                userList = userService.findAll(new User());
-                break;
-            default:
-                userList = userService.findAll(new User());
-                break;
-        }
+
+        userList = userService.findAll(new User());
 
         model.addAttribute("userList",userList);
-        model.addAttribute("action", action);
         model.addAttribute("site","user");
         return "index";
     }
-
-    /**
-     * Is this even used?
-     * @return
-    private String getPrincipal(){
-        String userName = null;
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-        if (principal instanceof UserDetails) {
-            userName = ((UserDetails)principal).getUsername();
-        } else {
-            userName = principal.toString();
-        }
-        return userName;
-    }
-     */
 
 }

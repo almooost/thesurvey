@@ -25,6 +25,18 @@ public interface SurveyInterface extends ModelInterface {
     void setStartDate(Date date);
 
     /**
+     * Get current author for survey
+     * @return
+     */
+    String getAuthor();
+
+    /**
+     * Set new author for survey
+     * @param author
+     */
+    void setAuthor(String author);
+
+    /**
      * Get enddate of survey
      * @return
      */
@@ -53,24 +65,6 @@ public interface SurveyInterface extends ModelInterface {
      * @param surveyContact
      */
     void addSurveyContact(SurveyContactInterface surveyContact);
-
-    /**
-     * Get list of contact recipients
-     * @return contacts
-     */
-    //List<ContactInterface> getContacts();
-
-    /**
-     * Set new list of contacts
-     * @param contacts
-     */
-    //void setContacts(List<ContactInterface> contacts);
-
-    /**
-     * Add new contact to list of existing
-     * @param contact
-     */
-    //void addContact(ContactInterface contact);
 
     /**
      * Get list of questions

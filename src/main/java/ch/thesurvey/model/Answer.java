@@ -1,10 +1,12 @@
 package ch.thesurvey.model;
 
 import ch.thesurvey.model.interfaces.AnswerInterface;
+import ch.thesurvey.model.interfaces.AnswerTypeInterface;
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
 import java.io.IOException;
@@ -27,16 +29,22 @@ public class Answer implements AnswerInterface {
     private String description;
     private String type;
     private Integer status;
+    private String answer;
 
-    private String answers;
+    private AnswerTypeInterface answerType;
 
     private Integer points;
     private Date datetime;
+
+    public Answer(){
+        answerType = new MultipleChoice();
+    }
 
     @Override
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name ="id")
+
     public Integer getId() {
         return id;
     }
@@ -113,35 +121,18 @@ public class Answer implements AnswerInterface {
     }
 
     @Column(name = "answers")
-    public String getAnswers() {return answers;}
+    public String getAnswer() {return answer;}
 
-    @Override
-    public void setAnswers(String answers) {this.answers = answers;}
+    public void setAnswer(String answer){
+        answerType.fromJson(answer);
+        this.answer = answer;
+    }
 
     @Transient
-    public Map getAnswerList(){
+    public AnswerTypeInterface getAnswerType(){return answerType;}
 
-        Map<String, Object> map = new HashMap<String, Object>();
-
-        try {
-
-            ObjectMapper mapper = new ObjectMapper();
-            String json = getAnswers();
-
-            // convert JSON string to Map
-            map = mapper.readValue(json, new TypeReference<Map<String, String>>(){});
-
-            return map;
-
-        } catch (JsonGenerationException e) {
-            e.printStackTrace();
-        } catch (JsonMappingException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        finally {
-            return map;
-        }
+    public void setAnswerType(AnswerTypeInterface answerType){
+        this.answerType = answerType;
+        this.answer = answerType.getJson();
     }
 }

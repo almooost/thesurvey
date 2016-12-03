@@ -30,7 +30,7 @@ import java.util.List;
  * Serves paths for evaluations
  * @author Samuel Alfano
  * @date 28.10.2016
- * @version v0.1
+ * @version v0.2
  */
 @Controller
 @RequestMapping(value = "/surveys/evaluations/")
@@ -42,27 +42,18 @@ public class EvaluationController {
     List<ModelInterface> evaluationList;
 
     @RequestMapping(value = "/evaluations", method = RequestMethod.GET)
-    public String getSurvey(@RequestParam(value = "action", required = false, defaultValue = "manage")String action,
-                            ModelMap model,
+    public String getSurvey(ModelMap model,
                             HttpSession httpSession){
 
-        switch (action){
-            case "manage":
-                evaluationList = evaluationService.findAll(new Evaluation());
-                break;
-            default:
-                evaluationList = evaluationService.findAll(new Evaluation());
-                break;
-        }
+        evaluationList = evaluationService.findAll(new Evaluation());
 
         model.addAttribute("evaluationList", evaluationList);
-        model.addAttribute("action", action);
         model.addAttribute("site","evaluation");
         return "index";
     }
 
     @RequestMapping(value = "/edit", method = RequestMethod.GET)
-    public String editEvaluation(@RequestParam(value = "id", required = false, defaultValue = "")String id,
+    public String editEvaluation(@RequestParam(value = "id", required = true, defaultValue = "")String id,
                                ModelMap model,
                                HttpSession httpSession){
 
@@ -78,15 +69,13 @@ public class EvaluationController {
     }
 
     @RequestMapping(value = "/new", method = RequestMethod.GET)
-    public String newSurvey(@RequestParam(value = "action", required = false, defaultValue = "new")String action,
-                            ModelMap model,
+    public String newSurvey(ModelMap model,
                             HttpSession httpSession){
 
         Evaluation evaluation = new Evaluation();
 
         model.addAttribute("evaulation",evaluation);
 
-        model.addAttribute("username", "sam");
         model.addAttribute("site", "evaluation_new");
         return "index";
     }
@@ -110,21 +99,17 @@ public class EvaluationController {
     }
 
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
-    public String deleteSurvey(@RequestParam(value = "action", required = true, defaultValue = "delte")String action,
-                               @RequestParam(value = "id", required = true) String id,
+    public String deleteSurvey(@RequestParam(value = "id", required = true) String id,
                                ModelMap model,
                                HttpSession httpSession){
 
-        if(action.contentEquals("delete")) {
+        ModelInterface evaluation = evaluationService.findById(Integer.parseInt(id));
 
-            ModelInterface evaluation = evaluationService.findById(Integer.parseInt(id));
-
-            if (evaluation instanceof EvaluationInterface && evaluation.getName() != null) {
-                evaluationService.remove(evaluation);
-                model.addAttribute("info", "Frage gelöscht");
-            } else
-                model.addAttribute("warning", "Frage konnte nicht gelöscht werden!");
-        }
+        if (evaluation instanceof EvaluationInterface && evaluation.getName() != null) {
+            evaluationService.remove(evaluation);
+            model.addAttribute("info", "Frage gelöscht");
+        } else
+            model.addAttribute("warning", "Frage konnte nicht gelöscht werden!");
 
         evaluationList = evaluationService.findAll(new Evaluation());
 
@@ -135,9 +120,9 @@ public class EvaluationController {
 
     @RequestMapping(value = "/app/evaluations/download/{id}", produces = "text/csv")
     public void downloadCSV(HttpServletResponse response,
-                              @RequestParam(value = "id", required = true) String id,
-                              ModelMap model,
-                              HttpSession httpSession) throws IOException {
+                            @RequestParam(value = "id", required = true) String id,
+                            ModelMap model,
+                            HttpSession httpSession) throws IOException {
 
         response.setContentType("text/csv");
 

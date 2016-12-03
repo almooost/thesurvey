@@ -12,7 +12,6 @@ import java.util.List;
 /**
  * Service for abstracting user dao
  * @author Samuel Alfano
- * @date 01.11.2016
  * @version v0.2
  */
 @Service

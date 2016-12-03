@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <br /><br />
 <a href="/app/questions/new"><button class="btn btn-primary">Neue Frage</button></a>
 <br /><br />

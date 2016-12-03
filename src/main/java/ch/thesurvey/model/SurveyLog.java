@@ -10,7 +10,9 @@ import javax.persistence.*;
 import java.util.List;
 
 /**
- * Holds elements for survey
+ * Class for storing a filled out survey
+ * @author Samuel Alfano
+ * @version v0.3
  */
 @Entity
 @Table(name = "survey_log")
@@ -23,7 +25,7 @@ public class SurveyLog implements SurveyLogInterface {
     private Integer points;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name ="id")
     public Integer getId() {
         return id;
@@ -51,6 +53,10 @@ public class SurveyLog implements SurveyLogInterface {
         this.question = question;
     }
 
+    @Column(name = "question")
+    public String getQuestionText(){return question.getDescription();}
+
+    public void setQuestionText(String questionText){question.setDescription(questionText);}
 
     @Column(name = "answer")
     public String getAnswer() {return answer;}
@@ -61,7 +67,5 @@ public class SurveyLog implements SurveyLogInterface {
     public Integer getPoints(){return points;}
 
     public void setPoints(Integer points){this.points = points;}
-
-
 
 }

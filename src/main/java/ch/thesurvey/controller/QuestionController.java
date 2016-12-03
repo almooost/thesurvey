@@ -21,7 +21,7 @@ import java.util.List;
  * Serves paths for questions
  * @author Samuel Alfano
  * @date 28.10.2016
- * @version v0.1
+ * @version v0.2
  */
 @Controller
 @RequestMapping(value = "/app/questions/")
@@ -99,22 +99,21 @@ public class QuestionController {
         return "redirect:/app/questions/";
     }
 
-    @RequestMapping(value = "/delete", method = RequestMethod.POST)
-    public String deleteSurvey(@RequestParam(value = "action", required = true, defaultValue = "delte")String action,
-                               @RequestParam(value = "id", required = true) String id,
+    @RequestMapping(value = "/delete")
+    public String deleteSurvey(@RequestParam(value = "id", required = true) String id,
                                ModelMap model,
                                HttpSession httpSession){
 
-        if(action.contentEquals("delete")) {
 
-            ModelInterface question = questionService.findById(Integer.parseInt(id));
 
-            if (question instanceof QuestionInterface && question.getName() != null) {
-                questionService.remove(question);
-                model.addAttribute("info", "Frage gelöscht");
-            } else
-                model.addAttribute("warning", "Frage konnte nicht gelöscht werden!");
-        }
+        ModelInterface question = questionService.findById(Integer.parseInt(id));
+
+        if (question instanceof QuestionInterface && question.getName() != null) {
+            questionService.remove(question);
+            model.addAttribute("info", "Frage gelöscht");
+        } else
+            model.addAttribute("warning", "Frage konnte nicht gelöscht werden!");
+
 
         questionList = questionService.findAll(new Question());
 

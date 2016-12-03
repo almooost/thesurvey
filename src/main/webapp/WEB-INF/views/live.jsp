@@ -15,6 +15,7 @@
     <div class="row">
         <div class="col-sm-9">
             <form:form action="${url}" method="POST" modelAttribute="question" cssClass="form-horizontal form-label-left input_mask" >
+                <form:hidden path="question_id" value="${question.id}" />
                 <div class="row">
                     <div class="col-sm-12">
                         <h2>${question.name}</h2>
@@ -24,23 +25,22 @@
                     </div>
 
                     <div class="col-sm-12">
-                        ${question.answer.type}
+                        ${answerObj.type}
                     </div>
 
-                    <c:if test="${question.answer.type  == 'text'}">
+                    <c:if test="${answerObj.type == 'text'}">
                         <div class="col-sm-12">
                             <label>Bitte geben Sie Ihre Antwort ein</label>
-                            <div class="col-sm-12">${question.answer.description}</div>
-                            <form:input path="answer" cssClass="form-control"></form:input>
+                            <div class="col-sm-12">${answerObj.description}</div>
+                            <form:input path="answer" cssClass="form-control"/>
                         </div>
                     </c:if>
-                    <c:if test="${question.answer.type == 'multiple-choice'}">
+                    <c:if test="${answerObj.type == 'Multiple-Choice'}">
                         <div class="col-sm-12"><b>Antwort</b></div>
-                        <div class="col-sm-12">${question.answer.description}</div>
+                        <div class="col-sm-12">${answerObj.description}</div>
 
                         <div class="col-sm-12">
-                            <form:radiobuttons path="favoriteMovieType" items="${question.answer.answerList}" />
-
+                            <form:radiobuttons path="answer" items="${answer}" />
                         </div>
                     </c:if>
                 </div>

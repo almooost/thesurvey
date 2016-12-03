@@ -3,15 +3,14 @@ package ch.thesurvey.controller;
 import ch.thesurvey.model.*;
 import ch.thesurvey.model.interfaces.*;
 import ch.thesurvey.service.interfaces.*;
-import ch.thesurvey.utility.Mail;
+import ch.thesurvey.utility.SurveyMail;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.mail.MessagingException;
-import javax.persistence.ManyToOne;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +20,7 @@ import java.util.UUID;
  * Servey paths for surveys
  * @author Samuel Alfano
  * @date 28.10.2016
- * @version v0.1
+ * @version v0.2
  */
 @Controller
 @RequestMapping(value = "/app/surveys/")
@@ -46,13 +45,15 @@ public class SurveyController {
     @Autowired
     private SurveyQuestionServiceInterface surveyQuestionService;
 
+    @Autowired
+    private JavaMailSender javaMailSender;
+
     public SurveyController(){
         surveyList = new ArrayList<ModelInterface>();
     }
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String getSurvey(@RequestParam(value = "action", required = false, defaultValue = "manage")String action,
-                            ModelMap model,
+    public String getSurvey(ModelMap model,
                             HttpSession httpSession){
 
         surveyList = surveyService.findAll(new Survey());
@@ -91,8 +92,8 @@ public class SurveyController {
                             HttpSession httpSession){
 
         Survey survey = new Survey();
+        //TODO SET REAL
         survey.setAuthor("sam");
-        model.addAttribute("username", "sam");
         model.addAttribute("site", "survey_new");
         model.addAttribute("survey", survey);
         return "index";
@@ -122,18 +123,16 @@ public class SurveyController {
             model.addAttribute("survey", survey);
         }
 
-        model.addAttribute("username", "sam");
         model.addAttribute("site", "survey_new");
         model.addAttribute("id", id);
-        return "redirect:/app/surveys/edit";
+        return "redirect:/app/surveys/edit/";
     }
 
     @RequestMapping(value = "/contacts/delete", method = RequestMethod.GET)
-    public String deleteContact(@RequestParam(value = "action", required = false, defaultValue = "delete_contact")String action,
-                             @RequestParam(value = "id", required = true)String id,
-                             @RequestParam(value = "contact_id", required = true) String contactId,
-                             ModelMap model,
-                             HttpSession httpSession){
+    public String deleteContact(@RequestParam(value = "id", required = true)String id,
+                                @RequestParam(value = "contact_id", required = true) String contactId,
+                                ModelMap model,
+                                HttpSession httpSession){
 
         System.out.println("Reached deleteContact, id: "+id);
         System.out.println("Reached deleteContact, contactId: "+contactId);
@@ -144,16 +143,16 @@ public class SurveyController {
 
             model.addAttribute("info", "Kontakt von Umfrage gelöscht");
             model.addAttribute("id", id);
-            return "redirect:/app/surveys/edit";
+            return "redirect:/app/surveys/edit/";
         }
         return "redirect:/app/surveys/";
     }
 
     @RequestMapping(value = "/questions/add", method = RequestMethod.GET)
     public String addQuestion(@RequestParam(value = "id", required = true)String id,
-                             @RequestParam(value = "question_id", required = true) String questionId,
-                             ModelMap model,
-                             HttpSession httpSession){
+                              @RequestParam(value = "question_id", required = true) String questionId,
+                              ModelMap model,
+                              HttpSession httpSession){
 
         System.out.println("Reached addQuestion, id: "+id);
         System.out.println("Reached addQuestion, questionId: "+questionId);
@@ -171,7 +170,7 @@ public class SurveyController {
             model.addAttribute("info", "Frage erfolgreich zur Umfrage hinzugefügt");
             model.addAttribute("survey", survey);
             model.addAttribute("id", id);
-            return "redirect:/app/surveys/edit";
+            return "redirect:/app/surveys/edit/";
 
         }
 
@@ -181,9 +180,9 @@ public class SurveyController {
 
     @RequestMapping(value = "/questions/delete", method = RequestMethod.GET)
     public String deleteQuestion(@RequestParam(value = "id", required = true)String id,
-                                @RequestParam(value = "question_id", required = true) String questionId,
-                                ModelMap model,
-                                HttpSession httpSession){
+                                 @RequestParam(value = "question_id", required = true) String questionId,
+                                 ModelMap model,
+                                 HttpSession httpSession){
 
         System.out.println("Reached deleteQuestion, id: "+id);
         System.out.println("Reached deleteQuestion, questionId: "+questionId);
@@ -194,7 +193,7 @@ public class SurveyController {
 
             model.addAttribute("info", "Frage von Umfrage gelöscht");
             model.addAttribute("id", id);
-            return "redirect:/app/surveys/edit";
+            return "redirect:/app/surveys/edit/";
         }
         return "redirect:/app/surveys/";
     }
@@ -202,10 +201,7 @@ public class SurveyController {
     @RequestMapping(value = "/persist", method = RequestMethod.POST)
 
     public String addSurvey(@ModelAttribute Survey survey, BindingResult bindingResult, ModelMap model){
-        System.out.println("/persist successfully reachaed");
-        System.out.println(survey.getStartDate());
-        System.out.println(survey.getEndDate());
-        System.out.println("PERSIST CALLED");
+
         survey.setStatus(1);
         surveyService.persist(survey);
         surveyList = surveyService.findAll(new Survey());
@@ -220,30 +216,27 @@ public class SurveyController {
     }
 
     @RequestMapping(value = "/delete", method = RequestMethod.GET)
-    public String deleteSurvey(@RequestParam(value = "action", required = true)String action,
-                               @RequestParam(value = "id", required = true) String id,
+    public String deleteSurvey(@RequestParam(value = "id", required = true) String id,
                                ModelMap model,
                                HttpSession httpSession){
 
-        if(action.contentEquals("delete")) {
-            System.out.println("DELETE ACTION CALLED");
 
-            ModelInterface survey = surveyService.findById(Integer.parseInt(id));
+        ModelInterface survey = surveyService.findById(Integer.parseInt(id));
 
-            if (survey.getName() != null) {
-                System.out.println("REMOVE");
+        if (survey.getName() != null) {
+            System.out.println("REMOVE");
 
-                surveyService.remove(survey);
-                model.addAttribute("info", "Umfrage gelöscht");
-            } else
-                model.addAttribute("warning", "Umfrage konnte nicht gelöscht werden!");
-        }
+            surveyService.remove(survey);
+            model.addAttribute("info", "Umfrage gelöscht");
+        } else
+            model.addAttribute("warning", "Umfrage konnte nicht gelöscht werden!");
 
         surveyList = surveyService.findAll(new Survey());
+
         model = new ModelMap();
         model.addAttribute("site", "survey");
         model.addAttribute("surveyList",surveyList);
-        return "redirect:/app/surveys";
+        return "redirect:/app/surveys/";
     }
 
     @RequestMapping(value = "/execute")
@@ -260,23 +253,17 @@ public class SurveyController {
 
         String msg = "";
 
-        try {
-            Mail mail = new Mail();
-            mail.setSurvey(survey);
-            mail.setContactList(survey.getSurveyContacts());
+        SurveyMail mail = new SurveyMail(javaMailSender, survey, survey.getSurveyContacts());
 
-            if (mail.send()) {
-                msg = "Umfrage wurde erfolgreich ausgeführt";
-                surveyService.persist(survey);
-            } else {
-                msg = "Umfrage konnte nicht ausgeührt werden, es ist ein interner Fehler aufgetreten";
-            }
+        if(mail.send("alfano@eth0.ch", survey.getName(), survey.getDescription())){
+            msg = "Umfrage wurde erfolgreich ausgeführt";
+            survey.setStatus(8);
+            surveyService.persist(survey);
+        }
+        else {
+            msg = "Umfrage konnte nicht ausgeührt werden, es ist ein interner Fehler aufgetreten";
+        }
 
-        }
-        catch (MessagingException e){
-            System.out.println(e.getMessage());
-            msg = "Es ist ein interner Fehler aufgetreten!";
-        }
 
         surveyList = surveyService.findAll(new Survey());
         model.addAttribute("info", msg);

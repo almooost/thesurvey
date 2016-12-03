@@ -1,8 +1,5 @@
 package ch.thesurvey.model.interfaces;
 
-import java.util.List;
-import java.util.Map;
-
 /**
  * Basic type for answers
  * @author Samuel Alfano
@@ -51,17 +48,23 @@ public interface AnswerInterface extends ModelInterface{
      * Get answers
      * @return answers
      */
-    String getAnswers();
+    String getAnswer();
 
     /**
      * Set answers
-     * @param answers
+     * @param answer
      */
-    void setAnswers(String answers);
+    void setAnswer(String answer);
 
     /**
      * Map of answers
-     * @return
+     * @return answerType
      */
-    Map getAnswerList();
+    AnswerTypeInterface getAnswerType();
+
+    /**
+     * Set new anwertype for answer
+     * @param answerType
+     */
+    void setAnswerType(AnswerTypeInterface answerType);
 }

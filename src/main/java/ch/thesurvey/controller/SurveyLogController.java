@@ -1,13 +1,9 @@
 package ch.thesurvey.controller;
 
-import ch.thesurvey.model.Question;
 import ch.thesurvey.model.SurveyContact;
 import ch.thesurvey.model.SurveyLog;
 import ch.thesurvey.model.interfaces.*;
-import ch.thesurvey.service.interfaces.SurveyContactServiceInterface;
-import ch.thesurvey.service.interfaces.SurveyLogServiceInterface;
-import ch.thesurvey.service.interfaces.SurveyQuestionServiceInterface;
-import ch.thesurvey.service.interfaces.SurveyServiceInterface;
+import ch.thesurvey.service.interfaces.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -16,14 +12,13 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 /**
  * Handle survey fileld out by employees
  * @author Samuel Alfano
  * @date 22.11.2016
- * @version v0.1
+ * @version v0.2
  */
 @Controller
 @RequestMapping(value = "/live")
@@ -40,6 +35,9 @@ public class SurveyLogController {
 
     @Autowired
     private SurveyQuestionServiceInterface surveyQuestionService;
+
+    @Autowired
+    private QuestionServiceInterface questionService;
 
     @Autowired
     private SurveyContactServiceInterface surveyContactService;
@@ -74,7 +72,8 @@ public class SurveyLogController {
 
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
-    public String saveSurvey(@ModelAttribute(name = "surveyLog")QuestionInterface question,
+    public String saveSurvey(@RequestAttribute( name = "answer")String answer,
+                             @RequestAttribute(name = "question_id") String question_id,
                              @RequestAttribute(name = "id", required = true)String id,
                              @RequestAttribute(name = "token", required = true)String token,
                              ModelMap model,
@@ -89,6 +88,7 @@ public class SurveyLogController {
 
         SurveyLogInterface surveyLog = new SurveyLog();
         surveyLog.setSurvey(survey);
+        QuestionInterface question = (QuestionInterface)questionService.findById(Integer.parseInt(question_id));
         surveyLog.setQuestion(question);
 
         surveyLogService.persist(surveyLog);
@@ -137,7 +137,9 @@ public class SurveyLogController {
             if(set_question){
                 httpSession.setAttribute("question_id", surveyQuestion.getId());
                 httpSession.setAttribute("question_count_index", question_count);
-                model.addAttribute("question", surveyQuestion);
+                model.addAttribute("question", surveyQuestion.getQuestion());
+                model.addAttribute("answer_values", surveyQuestion.getQuestion().getAnswer().getAnswerType().getValues());
+                model.addAttribute("answerObj", surveyQuestion.getQuestion().getAnswer());
                 break;
             }
 

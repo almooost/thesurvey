@@ -12,7 +12,6 @@ import java.util.List;
 /**
  * Service for abstracting survey dao
  * @author Samuel Alfano
- * @date 11.11.2016
  * @version v0.1
  */
 @Service

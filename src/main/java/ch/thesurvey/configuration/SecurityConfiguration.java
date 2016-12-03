@@ -15,7 +15,9 @@ import org.springframework.security.web.session.HttpSessionEventPublisher;
 import javax.sql.DataSource;
 
 /**
- * Created by sam on 08.11.16.
+ * Main security configuration initializer
+ * @author Samuel Alfano
+ * @version v0.2
  */
 @Configuration
 @EnableWebSecurity
@@ -66,7 +68,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .migrateSession();
 
         http.authorizeRequests()
-                //.anyRequest().authenticated()
                 .antMatchers("/app/**").access("hasRole('ROLE_USER')");
 
         http.formLogin()

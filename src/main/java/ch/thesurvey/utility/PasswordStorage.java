@@ -11,6 +11,11 @@ import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import javax.xml.bind.DatatypeConverter;
 
+/**
+ * PasswordStorage class used to hash passwords in through the app in the same way
+ * @author Samuel Alfano
+ * @version v0.2
+ */
 public class PasswordStorage implements PasswordEncoder{
 
     @SuppressWarnings("serial")

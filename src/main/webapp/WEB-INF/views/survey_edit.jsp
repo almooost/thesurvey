@@ -3,7 +3,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <br /><br />
-<a href="/app/surveys/execute?id=${survey.id}"><button class="btn btn-primary">Ausführen</button></a>
+<a href="/app/surveys/execute?id=${survey.id}"><button class="btn btn-primary">Ausf&uuml;hren</button></a>
 
 <div class="row">
     <!-- col-md-6 -->
@@ -19,17 +19,18 @@
                            modelAttribute="survey" cssClass="form-horizontal form-label-left input_mask">
                 <!-- <form class="form-horizontal form-label-left input_mask" method="POST" action="persist"> -->
 
-                    <input type="hidden" name="id" value="${survey.id}">
-                    <input type="hidden" name="author" value="${survey.author}">
-                    <input type="hidden" name="points" value="0">
-                    <input type="hidden" name="status" value="1">
+                    <form:hidden path="id" value="${survey.id}"  />
+                    <form:hidden path="author" value="${survey.author}" />
+                    <form:hidden path="points" value="0"  />
+                    <form:hidden path="status" value="1" />
+
 
 
                     <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Umfrage Name <span class="required">*</span>
                         </label>
                         <div class="col-md-9 col-sm-9 col-xs-12">
-                            <input class="date-picker form-control col-md-7 col-xs-12" name="name" required="required" type="text" value="${survey.name}">
+                            <form:input path="name" cssClass="form-control col-md-7 col-xs-12" value="${survey.name}" />
                         </div>
                     </div>
 
@@ -37,7 +38,7 @@
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Datum Start <span class="required">*</span>
                         </label>
                         <div class="col-md-9 col-sm-9 col-xs-12">
-                            <input class="date-picker form-control col-md-7 col-xs-12" name="start_date" required="required" type="text" value="<fmt:formatDate value="${survey.startDate}" type="date" pattern="yyyy-mm-dd" />">
+                            <form:input path="startDate" cssClass="date-picker form-control col-md-7 col-xs-12" value="${survey.startDate}" />
                         </div>
                     </div>
 
@@ -45,21 +46,21 @@
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Datum Ende <span class="required">*</span>
                         </label>
                         <div class="col-md-9 col-sm-9 col-xs-12">
-                            <input class="date-picker form-control col-md-7 col-xs-12" name="end_date" required="required" type="text" value="<fmt:formatDate value="${survey.endDate}" type="date" pattern="yyyy-mm-dd" />">
+                            <form:input path="endDate" cssClass="date-picker form-control col-md-7 col-xs-12" value="${survey.endDate}" />
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Beschreibung</label>
                         <div class="col-md-9 col-sm-9 col-xs-12">
-                            <textarea class="form-control" name="description">${survey.description}</textarea>
+                            <form:textarea path="description" cssClass="form-control" value="${survey.description}" />
                         </div>
                     </div>
 
                     <div class="ln_solid"></div>
                     <div class="form-group">
                         <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
-                            <button class="btn btn-primary"><a href="/app/surveys/" style="color:white;">Abbrechen</a></button>
+                            <button type="reset" class="btn btn-primary"><a href="/app/surveys/" style="color:white;">Abbrechen</a></button>
                             <button type="submit" class="btn btn-success">Ändern und speichern</button>
                         </div>
                     </div>

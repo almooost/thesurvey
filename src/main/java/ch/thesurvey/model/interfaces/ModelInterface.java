@@ -3,7 +3,10 @@ package ch.thesurvey.model.interfaces;
 import java.util.Date;
 
 /**
- * Created by sam on 10.11.16.
+ * Represents general model, implemented by normal model classes
+ * @author Samuel Alfano
+ * @date 24.10.2016
+ * @version v0.1
  */
 public interface ModelInterface {
 
