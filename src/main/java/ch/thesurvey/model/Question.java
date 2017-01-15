@@ -22,12 +22,11 @@ public class Question implements QuestionInterface{
     private String type;
     private Integer status;
 
-    private Integer points;
+    private Integer answerId;
     private Date datetime;
 
     private AnswerInterface answer;
 
-    @Override
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name ="id")
@@ -35,51 +34,42 @@ public class Question implements QuestionInterface{
         return id;
     }
 
-    @Override
     public void setId(Integer id) {
         this.id = id;
     }
 
-    @Override
     @Column(name = "name")
     public String getName() {
         return name;
     }
 
-    @Override
     public void setName(String name) {
         this.name = name;
     }
 
-    @Override
     @Column(name = "description")
     public String getDescription() {
         return description;
     }
 
-    @Override
     public void setDescription(String description) {
         this.description = description;
     }
 
-    @Override
     @Column(name = "type")
     public String getType() {
         return type;
     }
 
-    @Override
     public void setType(String type) {
         this.type = type;
     }
 
-    @Override
     @Column(name = "status")
     public Integer getStatus() {
         return status;
     }
 
-    @Override
     public void setStatus(Integer status) {
         this.status = status;
     }
@@ -97,14 +87,6 @@ public class Question implements QuestionInterface{
     @JoinColumn(name = "answer_id", referencedColumnName = "id", updatable = false, insertable = false)
     public AnswerInterface getAnswer(){return answer;}
 
-    @Column(name = "answer_id")
-    public Integer getAnswerId(){return answer.getId();}
-
-    public void setAnswerId(Integer answerId){}
-
-    @Override
-    public void setAnswer(AnswerInterface answer) {
-        this.answer = answer;
-    }
+    public void setAnswer(AnswerInterface answer) {this.answer = answer;}
 
 }

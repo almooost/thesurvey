@@ -1,5 +1,6 @@
 package ch.thesurvey.model;
 
+import ch.thesurvey.model.interfaces.CustomerInterface;
 import ch.thesurvey.model.interfaces.UserInterface;
 
 import javax.persistence.*;
@@ -26,6 +27,8 @@ public class User implements UserInterface {
     private Date datetime;
     private Integer status;
 
+    private CustomerInterface customer;
+
 
     public User(){}
 
@@ -50,7 +53,6 @@ public class User implements UserInterface {
         return id;
     }
 
-    @Override
     public void setId(Integer id) {
         this.id = id;
     }
@@ -67,7 +69,6 @@ public class User implements UserInterface {
     @Column(name="password")
     public String getPassword(){ return password; }
 
-    @Override
     public void setPassword(String password) {
         this.password = password;
     }
@@ -115,7 +116,11 @@ public class User implements UserInterface {
         return status;
     }
 
-    @Override
     public void setStatus(Integer status) { this.status = status; }
 
+    @OneToOne(targetEntity = Customer.class, fetch = FetchType.EAGER)
+    @JoinColumn(name = "customer_id", referencedColumnName = "id", updatable = false, insertable = false)
+    public CustomerInterface getCustomer() {return customer;}
+
+    public void setCustomer(CustomerInterface customer) {this.customer = customer;}
 }

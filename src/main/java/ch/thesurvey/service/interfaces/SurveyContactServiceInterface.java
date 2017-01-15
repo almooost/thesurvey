@@ -2,8 +2,6 @@ package ch.thesurvey.service.interfaces;
 
 import ch.thesurvey.model.interfaces.ModelInterface;
 import ch.thesurvey.model.interfaces.SurveyContactInterface;
-import ch.thesurvey.model.interfaces.SurveyInterface;
-
 import java.util.List;
 
 /**

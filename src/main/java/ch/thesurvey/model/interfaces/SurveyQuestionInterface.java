@@ -12,23 +12,23 @@ public interface SurveyQuestionInterface extends ModelInterface {
      * Get current survey id
      * @return surveyid
      */
-    public SurveyInterface getSurvey();
+    SurveyInterface getSurvey();
 
     /**
      * Set new survey id
      * @param surveyId
      */
-    public void setSurvey(SurveyInterface surveyId);
+    void setSurvey(SurveyInterface surveyId);
 
     /**
      * Get current question
      * @return questionId
      */
-    public QuestionInterface getQuestion();
+    QuestionInterface getQuestion();
 
     /**
      * Set new id of a question
      * @param question
      */
-    public void setQuestion(QuestionInterface question);
+    void setQuestion(QuestionInterface question);
 }

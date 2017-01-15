@@ -1,9 +1,7 @@
 package ch.thesurvey.model;
 
 import ch.thesurvey.model.interfaces.EvaluationInterface;
-import ch.thesurvey.model.interfaces.ModelInterface;
 import ch.thesurvey.model.interfaces.SurveyInterface;
-import org.hibernate.annotations.Fetch;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -12,7 +10,7 @@ import java.util.Date;
  * Model for evaluation details about a survy
  * @author Samuel Alfano
  * @date 11.11.2016
- * @version v0.1
+ * @version v0.2
  */
 @Entity
 @Table(name = "evaluation")

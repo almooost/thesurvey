@@ -1,66 +1,36 @@
-<%@ page import="java.util.*" %>
-<%
-    List<Map<String, String>> evaluationList = new ArrayList<>();
-    Map<String, String> evaluationMap = new HashMap<String, String>();
-    evaluationMap.put("name", "Survey 1");
-    evaluationMap.put("description", "Abteilung IT, Mitarbeiter Zufriedenheits-Umfrage");
-    evaluationMap.put("creator", "Samuel Alfano");
-    evaluationMap.put("date_start", "28.10.2016");
-    evaluationMap.put("date_end", "28.11.2016");
-    evaluationMap.put("status", "active");
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-    evaluationList.add(evaluationMap);
-%>
+<br /><br />
+<a href="/app/evaluations/new"><button class="btn btn-primary">Neue Auswertung</button></a>
 
-<h1>Auswertungen</h1>
-<h2>Seite: ${site}, Aktion: ${action}</h2>
-
-<h3>Liste der vorhandenen Antworten</h3>
+<div class="info"></div>
+<h3>Liste der Auswertungen</h3>
 
 <table class="table table-striped jambo_table bulk_action">
     <thead>
     <tr class="headings">
-        <th>
-            <div class="icheckbox_flat-green" style="position: relative;"><input type="checkbox" id="check-all" class="flat" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
-        </th>
         <th class="column-title">Name </th>
-        <th class="column-title">Beschreibung</th>
-        <th class="column-title">Ersteller</th>
-        <th class="column-title">Start-Datum </th>
-        <th class="column-title">End-Datum </th>
-        <th class="column-title">Status </th>
-        <th class="column-title no-link last"><span class="nobr">Action</span>
-        </th>
-        <th class="bulk-actions" colspan="7">
-            <a class="antoo" style="color:#fff; font-weight:500;">Bulk Actions ( <span class="action-cnt"> </span> ) <i class="fa fa-chevron-down"></i></a>
-        </th>
+        <th class="column-title">Beschreibung </th>
+        <th class="column-title">Typ </th>
+        <th class="column-title">Zeit </th>
+        <th class="column-title no-link last"><span class="nobr">Aktion</span></th>
     </tr>
     </thead>
 
     <tbody>
-    <%
-        Iterator iter = evaluationList.iterator();
-        while (iter.hasNext())
-        {
-            Map<String, String> element = (Map<String, String>) iter.next();
-    %>
-    <tr class="even pointer">
-        <td class="a-center ">
-            <div class="icheckbox_flat-green" style="position: relative;">
-                <input type="checkbox" class="flat" name="table_records" style="position: absolute; opacity: 0;" class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;" />
-            </div>
-        </td>
-        <td><%= element.get("name")%></td>
-        <td><%= element.get("description")%></td>
-        <td><%= element.get("creator")%></td>
-        <td><%= element.get("date_start")%></td>
-        <td><%= element.get("date_end")%></td>
-        <td><%= element.get("status")%></td>
-        <td class=" last">[E] [D]</td>
-    </tr>
-    <%
-        }
-    %>
+    <c:forEach items="${evaluationList}" var="evaluation">
+        <tr class="even pointer">
+            <td>${evaluation.name}</td>
+            <td>${evaluation.description}</td>
+            <td>${evaluation.type}</td>
+            <td><fmt:formatDate value="${evaluation.timestamp}" pattern="dd.MM.yyyy - mm:HH:ss" /></td>
+            <td class=" last">
+                <a href="/app/evaluations/edit?id=${evaluation.id}" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Bearbeiten </a>
+                <a href="/app/evaluations/delete?action=delete&id=${evaluation.id}" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> L&ouml;schen </a>
+            </td>
+        </tr>
+    </c:forEach>
 
     </tbody>
 </table>

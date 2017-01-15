@@ -55,4 +55,16 @@ public interface UserInterface extends ModelInterface{
      */
     String getRole();
 
+    /**
+     * Get customer from user
+     * @return
+     */
+    CustomerInterface getCustomer();
+
+    /**
+     * Set new customer
+     * @param customer
+     */
+    void setCustomer(CustomerInterface customer);
+
 }

@@ -72,7 +72,7 @@ public class SurveyLogController {
 
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
-    public String saveSurvey(@RequestAttribute( name = "answer")String answer,
+    public String saveSurveyLog(@RequestAttribute( name = "answer")String answer,
                              @RequestAttribute(name = "question_id") String question_id,
                              @RequestAttribute(name = "id", required = true)String id,
                              @RequestAttribute(name = "token", required = true)String token,

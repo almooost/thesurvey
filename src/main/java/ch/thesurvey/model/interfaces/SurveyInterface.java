@@ -1,6 +1,5 @@
 package ch.thesurvey.model.interfaces;
 
-import javax.mail.MessagingException;
 import java.util.Date;
 import java.util.List;
 

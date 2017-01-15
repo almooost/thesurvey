@@ -6,17 +6,24 @@
 	<groupId>ch.thesurvey</groupId>
 	<artifactId>thesurvey-demo</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<!--
+	<packaging>jar</packaging>
+	-->
+
+	<!-- ununcomment for production -->
 	<packaging>war</packaging>
 
 	<name>thesurvey-demo</name>
 	<description>Demo project for Spring Boot</description>
 
+	<!-- uncomment for production -->
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>1.4.1.RELEASE</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
+
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -86,7 +93,9 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-tomcat</artifactId>
+			<!-- uncomment out for production -->
 			<scope>provided</scope>
+
 		</dependency>
 		<!-- /Spring -->
 
@@ -103,7 +112,9 @@
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
 			<version>${javax.servlet.api.version}</version>
+			<!-- uncomment out for production -->
 			<scope>provided</scope>
+
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/javax.servlet/jstl -->
@@ -117,13 +128,15 @@
 			<artifactId>jstl</artifactId>
 			<version>1.2</version>
 		</dependency>
-		<!--
+		<!-- comment out dependency for production -->
 		<dependency>
 			<groupId>org.apache.tomcat.embed</groupId>
 			<artifactId>tomcat-embed-jasper</artifactId>
+			<!-- commented out for development -->
 			<scope>provided</scope>
+
 		</dependency>
-		-->
+
 
 		<!-- /javax -->
 

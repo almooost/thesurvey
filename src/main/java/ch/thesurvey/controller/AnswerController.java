@@ -21,7 +21,7 @@ import java.util.List;
  * Serves paths for answers
  * @author Samuel Alfano
  * @date 28.10.2016
- * @version v0.2
+ * @version v0.3
  */
 @Controller
 @RequestMapping(value = "/app/answers/")
@@ -86,7 +86,7 @@ public class AnswerController {
         answerService.persist(answer);
         answerList = answerService.findAll(new Answer());
 
-        model.addAttribute("info", "Neue Umfrage hinzugefügt.");
+        httpSession.setAttribute("info", "Neue Antwort hinzugefügt.");
         model.addAttribute("site", "answer");
         model.addAttribute("id", answer.getId());
         model.addAttribute("name", answer.getName());
@@ -104,10 +104,10 @@ public class AnswerController {
 
         if(answer instanceof AnswerInterface && answer.getName() != null){
             answerService.remove(answer);
-            model.addAttribute("info", "Antwort gelöscht");
+            httpSession.setAttribute("info", "Antwort gelöscht");
         }
         else {
-            model.addAttribute("warning", "Antwort konnte nicht gelöscht werden!");
+            httpSession.setAttribute("info", "Antwort konnte nicht gelöscht werden!");
         }
 
         answerList = answerService.findAll(new Answer());

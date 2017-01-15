@@ -5,21 +5,24 @@ import ch.thesurvey.model.interfaces.*;
 import ch.thesurvey.service.interfaces.*;
 import ch.thesurvey.utility.SurveyMail;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
 /**
  * Servey paths for surveys
  * @author Samuel Alfano
- * @date 28.10.2016
  * @version v0.2
  */
 @Controller
@@ -72,6 +75,7 @@ public class SurveyController {
             SurveyInterface survey = (SurveyInterface)surveyService.findById(Integer.parseInt(id));
             List<SurveyContactInterface> surveyContactList = survey.getSurveyContacts();
             List<SurveyQuestionInterface> surveyQuestionList = survey.getSurveyQuestions();
+
             model.addAttribute("surveyContactList", surveyContactList);
             model.addAttribute("surveyQuestionList", surveyQuestionList);
             model.addAttribute("survey", survey);
@@ -92,8 +96,9 @@ public class SurveyController {
                             HttpSession httpSession){
 
         Survey survey = new Survey();
-        //TODO SET REAL
-        survey.setAuthor("sam");
+
+        survey.setAuthor((String)httpSession.getAttribute("username"));
+
         model.addAttribute("site", "survey_new");
         model.addAttribute("survey", survey);
         return "index";
@@ -119,7 +124,7 @@ public class SurveyController {
             surveyContact.setTokenUntil(survey.getEndDate());
 
             surveyContactService.persist(surveyContact);
-            model.addAttribute("info", "Kontakt erfolgreich zur Umfrage hinzugefügt");
+            httpSession.setAttribute("info", "Kontakt erfolgreich zur Umfrage hinzugefügt");
             model.addAttribute("survey", survey);
         }
 
@@ -141,7 +146,8 @@ public class SurveyController {
             SurveyContactInterface surveyContact = (SurveyContactInterface)surveyContactService.findById(Integer.parseInt(contactId));
             surveyContactService.remove(surveyContact);
 
-            model.addAttribute("info", "Kontakt von Umfrage gelöscht");
+            httpSession.setAttribute("info", "Kontakt von Umfrage gelöscht");
+
             model.addAttribute("id", id);
             return "redirect:/app/surveys/edit/";
         }
@@ -163,11 +169,14 @@ public class SurveyController {
             SurveyInterface survey = (SurveyInterface)surveyService.findById(Integer.parseInt(id));
             surveyQuestion.setSurvey(survey);
             QuestionInterface question = (QuestionInterface)questionService.findById(Integer.parseInt(questionId));
+
             System.out.println("Got question from db, name:"+question.getName());
+
             surveyQuestion.setQuestion(question);
 
             surveyQuestionService.persist(surveyQuestion);
-            model.addAttribute("info", "Frage erfolgreich zur Umfrage hinzugefügt");
+            httpSession.setAttribute("info", "Frage erfolgreich zur Umfrage hinzugefügt");
+
             model.addAttribute("survey", survey);
             model.addAttribute("id", id);
             return "redirect:/app/surveys/edit/";
@@ -200,13 +209,19 @@ public class SurveyController {
 
     @RequestMapping(value = "/persist", method = RequestMethod.POST)
 
-    public String addSurvey(@ModelAttribute Survey survey, BindingResult bindingResult, ModelMap model){
+    public String saveSurvey(@ModelAttribute Survey survey,
+                             BindingResult bindingResult,
+                             ModelMap model,
+                             HttpSession httpSession){
 
         survey.setStatus(1);
         surveyService.persist(survey);
         surveyList = surveyService.findAll(new Survey());
 
-        model.addAttribute("info", "Neue Umfrage hinzugefügt.");
+        System.out.println("Survey time start: "+survey.getStartDate().toString());
+        System.out.println("Survey time end: "+survey.getEndDate().toString());
+
+        httpSession.setAttribute("info", "Neue Umfrage hinzugefügt.");
         model.addAttribute("site", "survey");
         model.addAttribute("id", survey.getId());
         model.addAttribute("name", survey.getName());
@@ -266,10 +281,19 @@ public class SurveyController {
 
 
         surveyList = surveyService.findAll(new Survey());
-        model.addAttribute("info", msg);
+
+        httpSession.setAttribute("info", msg);
+
         model.addAttribute("site", "survey");
         model.addAttribute("surveyList",surveyList);
         return "redirect:/app/surveys/";
 
+    }
+
+    @InitBinder
+    public void initBinder(WebDataBinder binder) {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
+        sdf.setLenient(true);
+        binder.registerCustomEditor(Date.class, new CustomDateEditor(sdf, true));
     }
 }

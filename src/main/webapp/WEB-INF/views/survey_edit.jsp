@@ -38,7 +38,7 @@
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Datum Start <span class="required">*</span>
                         </label>
                         <div class="col-md-9 col-sm-9 col-xs-12">
-                            <form:input path="startDate" cssClass="date-picker form-control col-md-7 col-xs-12" value="${survey.startDate}" />
+                            <input name="startDate" class="date-picker form-control col-md-7 col-xs-12" value="<fmt:formatDate value="${survey.startDate}" pattern="dd.MM.yyyy" />" >
                         </div>
                     </div>
 
@@ -46,7 +46,7 @@
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Datum Ende <span class="required">*</span>
                         </label>
                         <div class="col-md-9 col-sm-9 col-xs-12">
-                            <form:input path="endDate" cssClass="date-picker form-control col-md-7 col-xs-12" value="${survey.endDate}" />
+                            <input name="endDate" class="date-picker form-control col-md-7 col-xs-12" value="<fmt:formatDate value="${survey.endDate}" pattern="dd.MM.yyyy" />" >
                         </div>
                     </div>
 

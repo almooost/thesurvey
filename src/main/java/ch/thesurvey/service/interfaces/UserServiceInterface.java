@@ -2,8 +2,6 @@ package ch.thesurvey.service.interfaces;
 
 import ch.thesurvey.model.interfaces.UserInterface;
 
-import java.util.List;
-
 /**
  * Service interface for more abstraction
  * @author Samuel Alfano
@@ -12,7 +10,7 @@ import java.util.List;
  */
 public interface UserServiceInterface extends ServiceInterface{
 
-    public UserInterface findByUser(UserInterface model);
+    UserInterface findByUser(UserInterface model);
 
-    public boolean authenticateUser(Integer userId, String password);
+    boolean authenticateUser(Integer userId, String password);
 }

@@ -2,9 +2,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-<h2>Seite: ${site}, Aktion: ${action}</h2>
-
-
 <div class="row">
     <div class="col-md-6 col-xs-12">
         <div class="x_panel">
@@ -29,18 +26,10 @@
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">
                             Typ <span class="required">*</span>
                         </label>
-                        <p>
-                            Multiple Choice:
-                            <div class="iradio_flat-green checked" style="position: relative;">
-                                <form:radiobutton path="type" cssClass="flat" value="multiple-choise"/>
-                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins>
-                            </div>
-                            Text
-                            <div class="iradio_flat-green" style="position: relative;">
-                                <form:radiobutton path="type" cssClass="flat" value="text" />
-                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins>
-                            </div>
-                        </p>
+                        <div class="col-md-9 col-sm-9 col-xs-12">
+                            <form:radiobutton path="type" value="Multiple-Choice" label="Multiple-Choice" id="type" />
+                            <form:radiobutton path="type" value="Text" label="Text" id="type" />
+                        </div>
                     </div>
 
                     <div class="form-group">

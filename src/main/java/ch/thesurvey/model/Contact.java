@@ -23,7 +23,7 @@ public class Contact implements ContactInterface {
     private Date datetime;
     private String department;
 
-    @Override
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name ="id")
@@ -31,7 +31,7 @@ public class Contact implements ContactInterface {
         return id;
     }
 
-    @Override
+
     public void setId(Integer id) {
         this.id = id;
     }
@@ -45,7 +45,6 @@ public class Contact implements ContactInterface {
         this.givenname = givenname;
     }
 
-    @Override
     @Column(name = "name")
     public String getName() {
         return name;

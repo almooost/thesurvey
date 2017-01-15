@@ -2,23 +2,14 @@ package ch.thesurvey.model;
 
 import ch.thesurvey.model.interfaces.AnswerInterface;
 import ch.thesurvey.model.interfaces.AnswerTypeInterface;
-import com.fasterxml.jackson.core.JsonGenerationException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-
 import javax.persistence.*;
-import java.io.IOException;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Template for answer
  * @author Samuel Alfano
  * @date 25.11.2016
- * @version v0.1
+ * @version v0.2
  */
 @Entity
 @Table(name = "answer_templates")

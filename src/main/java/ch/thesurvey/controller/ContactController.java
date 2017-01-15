@@ -3,7 +3,6 @@ package ch.thesurvey.controller;
 import ch.thesurvey.model.Contact;
 import ch.thesurvey.model.interfaces.ContactInterface;
 import ch.thesurvey.model.interfaces.ModelInterface;
-import ch.thesurvey.service.ContactService;
 import ch.thesurvey.service.interfaces.ContactServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -60,7 +59,7 @@ public class ContactController {
     }
 
     @RequestMapping(value = "/new", method = RequestMethod.GET)
-    public String newSurvey(ModelMap model,
+    public String newContact(ModelMap model,
                             HttpSession httpSession){
 
         Contact contact = new Contact();
@@ -71,7 +70,7 @@ public class ContactController {
     }
 
     @RequestMapping(value = "/persist", method = RequestMethod.POST)
-    public String addSurvey(@ModelAttribute Contact contact,
+    public String addContact(@ModelAttribute Contact contact,
                             ModelMap model,
                             HttpSession httpSession){
 
@@ -79,7 +78,8 @@ public class ContactController {
         contactService.persist(contact);
         contactList = contactService.findAll(new Contact());
 
-        model.addAttribute("info", "Frage hinzugefügt.");
+        httpSession.setAttribute("info", "Kontakt hinzugefügt.");
+
         model.addAttribute("site", "contacts");
         model.addAttribute("id", contact.getId());
         model.addAttribute("name", contact.getName());
@@ -89,7 +89,7 @@ public class ContactController {
     }
 
     @RequestMapping(value = "/delete")
-    public String deleteSurvey(@RequestParam(value = "id", required = true) String id,
+    public String deleteContact(@RequestParam(value = "id", required = true) String id,
                                ModelMap model,
                                HttpSession httpSession){
 
@@ -97,9 +97,9 @@ public class ContactController {
 
         if (contact instanceof ContactInterface && contact.getName() != null) {
             contactService.remove(contact);
-            model.addAttribute("info", "Frage gelöscht");
+            httpSession.setAttribute("info", "Kontakt gelöscht");
         } else
-            model.addAttribute("warning", "Frage konnte nicht gelöscht werden!");
+            httpSession.setAttribute("info", "Kontakt konnte nicht gelöscht werden!");
 
         contactList = contactService.findAll(new Contact());
 

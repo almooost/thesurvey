@@ -3,7 +3,6 @@ package ch.thesurvey.persistence.dao;
 import ch.thesurvey.model.Customer;
 import ch.thesurvey.model.interfaces.ModelInterface;
 import ch.thesurvey.persistence.dao.interfaces.CustomerDaoInterface;
-import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 

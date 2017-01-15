@@ -43,4 +43,5 @@ public interface QuestionInterface extends ModelInterface {
      * @param answer
      */
     void setAnswer(AnswerInterface answer);
+
 }

@@ -1,12 +1,8 @@
 package ch.thesurvey.model;
 
 import ch.thesurvey.model.interfaces.QuestionInterface;
-import ch.thesurvey.model.interfaces.SurveyContactInterface;
 import ch.thesurvey.model.interfaces.SurveyInterface;
 import ch.thesurvey.model.interfaces.SurveyQuestionInterface;
-import org.hibernate.annotations.Columns;
-import org.hibernate.annotations.NotFound;
-import org.hibernate.annotations.NotFoundAction;
 
 import javax.persistence.*;
 import java.io.Serializable;

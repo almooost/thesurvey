@@ -2,11 +2,22 @@
  * Custom javascript file
  * @author Samuel Alffano
  * @ate 26.10.2016
- * @version v0.1
+ * @version v0.2
  */
 
 $(document).ready(function(){
-    //alert("Hello world!");
+    $('button').click(function() {
+        $(this).toggleClass('expanded').siblings('div').slideToggle();
+    });
+
+    if( $.trim( $('.notification').html() ).length ) {
+        console.log("NOTIFICATION");
+
+        $('.notification-wrapper').show();
+        setTimeout(function () {
+            $('.notification-wrapper').fadeOut('slow');
+        }, 3000);
+    }
 });
 
 $(document).on('click', '.deleteItem', function(){
@@ -17,3 +28,4 @@ $(document).on('click', '.deleteItem', function(){
         $('.info').innerHTML(data);
     });
 });
+

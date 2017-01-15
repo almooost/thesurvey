@@ -4,9 +4,7 @@ import ch.thesurvey.model.Evaluation;
 import ch.thesurvey.model.interfaces.EvaluationInterface;
 import ch.thesurvey.model.interfaces.ModelInterface;
 import ch.thesurvey.service.interfaces.EvaluationServiceInterface;
-import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -19,11 +17,7 @@ import org.supercsv.prefs.CsvPreference;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.awt.print.Book;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
-import java.io.Writer;
 import java.util.List;
 
 /**
@@ -33,7 +27,7 @@ import java.util.List;
  * @version v0.2
  */
 @Controller
-@RequestMapping(value = "/surveys/evaluations/")
+@RequestMapping(value = "/app/evaluations/")
 public class EvaluationController {
 
     @Autowired
@@ -41,7 +35,7 @@ public class EvaluationController {
 
     List<ModelInterface> evaluationList;
 
-    @RequestMapping(value = "/evaluations", method = RequestMethod.GET)
+    @RequestMapping(value = "/", method = RequestMethod.GET)
     public String getSurvey(ModelMap model,
                             HttpSession httpSession){
 
@@ -69,7 +63,7 @@ public class EvaluationController {
     }
 
     @RequestMapping(value = "/new", method = RequestMethod.GET)
-    public String newSurvey(ModelMap model,
+    public String newEvaluation(ModelMap model,
                             HttpSession httpSession){
 
         Evaluation evaluation = new Evaluation();
@@ -81,7 +75,7 @@ public class EvaluationController {
     }
 
     @RequestMapping(value = "/persist", method = RequestMethod.POST)
-    public String addSurvey(@ModelAttribute Evaluation evaluation,
+    public String addEvaluation(@ModelAttribute Evaluation evaluation,
                             ModelMap model,
                             HttpSession httpSession){
 
@@ -89,7 +83,8 @@ public class EvaluationController {
         evaluationService.persist(evaluation);
         evaluationList = evaluationService.findAll(new Evaluation());
 
-        model.addAttribute("info", "Frage hinzugefügt.");
+        httpSession.setAttribute("info", "Auswertung gespeichert.");
+
         model.addAttribute("site", "evaluations");
         model.addAttribute("id", evaluation.getId());
         model.addAttribute("name", evaluation.getName());
@@ -99,7 +94,7 @@ public class EvaluationController {
     }
 
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
-    public String deleteSurvey(@RequestParam(value = "id", required = true) String id,
+    public String deleteEvaluation(@RequestParam(value = "id", required = true) String id,
                                ModelMap model,
                                HttpSession httpSession){
 
@@ -107,9 +102,9 @@ public class EvaluationController {
 
         if (evaluation instanceof EvaluationInterface && evaluation.getName() != null) {
             evaluationService.remove(evaluation);
-            model.addAttribute("info", "Frage gelöscht");
+            httpSession.setAttribute("info", "Auswertung gelöscht");
         } else
-            model.addAttribute("warning", "Frage konnte nicht gelöscht werden!");
+            httpSession.setAttribute("info", "Auswertung konnte nicht gelöscht werden!");
 
         evaluationList = evaluationService.findAll(new Evaluation());
 
@@ -118,7 +113,7 @@ public class EvaluationController {
         return "redirect:";
     }
 
-    @RequestMapping(value = "/app/evaluations/download/{id}", produces = "text/csv")
+    @RequestMapping(value = "/download/{id}", produces = "text/csv")
     public void downloadCSV(HttpServletResponse response,
                             @RequestParam(value = "id", required = true) String id,
                             ModelMap model,
@@ -154,5 +149,7 @@ public class EvaluationController {
         }
 
         csvWriter.close();
+
+        httpSession.setAttribute("info", "Auswertung zum Download vorbereitet");
     }
 }

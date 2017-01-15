@@ -33,6 +33,59 @@ h2 {
     height:100%;
 }
 
+.mobile {
+    display: none;
+    position: fixed;
+    width: 100%;
+    top: 0;
+}
+.mobile div {
+    display: none;
+}
+.mobile button {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    border: 0;
+    text-indent: 200%;
+    overflow: hidden;
+    background: rgba(255,255,255,0.8) url("http://i.imgur.com/vKRaKDX.png") center no-repeat;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    background-size: 80%;
+    width: 30px;
+    height: 30px;
+    outline: none;
+    -webkit-transition: all 400ms ease;
+    transition: all 400ms ease;
+}
+.mobile button.expanded {
+    -webkit-transform: rotate(90deg);
+    transform: rotate(90deg);
+    background-color: transparent;
+    border: 0;
+}
+.mobile a {
+    display: block;
+    background: #eee;
+    text-align: center;
+    padding: 20px 0;
+    border-bottom: 1px solid #ddd;
+    text-decoration: none;
+    color: #222;
+    font-weight: bold;
+}
+a:ho
+@media (max-width: 800px) {
+    .mobile {
+        display: block;
+    }
+    .desktop {
+        display: none;
+    }
+}
+
+
 /**
  * Main
  */
@@ -41,4 +94,32 @@ h2 {
     width: 100%;
     height:100%;
     background-color: ghostwhite;
+}
+
+.notification-wrapper {
+    display: none;
+    position: absolute;
+    top: 20px;
+    height:50px;
+    width:500px;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 10000000;
+    left: calc(50% - 250px);
+}
+
+.notification {
+    position: relative;
+    width: 100%;
+    font-size: 14px;
+    padding-top: 15px;
+    text-align: center;
+    color: whitesmoke;
+}
+
+@media all and (max-width: 768px){
+
+    .notification-wrapper {
+        width:100%;
+        left: 0;
+    }
 }

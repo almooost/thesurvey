@@ -2,7 +2,6 @@ package ch.thesurvey.persistence.dao;
 
 import ch.thesurvey.model.interfaces.ModelInterface;
 import ch.thesurvey.persistence.dao.interfaces.DaoInterface;
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;

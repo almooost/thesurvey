@@ -1,15 +1,9 @@
 package ch.thesurvey.persistence.dao;
 
-import ch.thesurvey.model.Question;
 import ch.thesurvey.model.SurveyContact;
-import ch.thesurvey.model.SurveyLog;
-import ch.thesurvey.model.User;
 import ch.thesurvey.model.interfaces.ModelInterface;
 import ch.thesurvey.model.interfaces.SurveyContactInterface;
-import ch.thesurvey.model.interfaces.SurveyInterface;
-import ch.thesurvey.model.interfaces.UserInterface;
 import ch.thesurvey.persistence.dao.interfaces.SurveyContactDaoInterface;
-import org.hibernate.Criteria;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 

@@ -1,7 +1,6 @@
 package ch.thesurvey.persistence.dao;
 
 import ch.thesurvey.model.SurveyLog;
-import ch.thesurvey.model.interfaces.ModelInterface;
 import ch.thesurvey.model.interfaces.SurveyLogInterface;
 import ch.thesurvey.persistence.dao.interfaces.SurveyLogDaoInterface;
 import org.hibernate.SessionFactory;

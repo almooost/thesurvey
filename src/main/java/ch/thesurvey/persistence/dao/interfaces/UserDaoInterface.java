@@ -2,8 +2,6 @@ package ch.thesurvey.persistence.dao.interfaces;
 
 import ch.thesurvey.model.interfaces.UserInterface;
 
-import java.util.List;
-
 /**
  * User Data Access Object for db interactions
  * @author Samuel Alfano

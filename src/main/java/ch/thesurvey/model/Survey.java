@@ -1,18 +1,13 @@
 package ch.thesurvey.model;
 
 import ch.thesurvey.model.interfaces.*;
-import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.mail.*;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
-import java.util.Properties;
 
 /**
  * Model for Survey, handles all survey relevant objects
@@ -28,7 +23,9 @@ public class Survey implements SurveyInterface {
     private String name;
     private String description;
     private String author;
+    @DateTimeFormat(pattern = "dd.MM.yyyy")
     private Date start_date;
+    @DateTimeFormat(pattern = "dd.MM.yyyy")
     private Date end_date;
     private Integer status;
 
@@ -47,29 +44,24 @@ public class Survey implements SurveyInterface {
         return id;
     }
 
-    @Override
     public void setId(Integer id) {
         this.id = id;
     }
 
-    @Override
     @Column(name = "name")
     public String getName() {
         return name;
     }
 
-    @Override
     public void setName(String name) {
         this.name = name;
     }
 
-    @Override
     @Column(name="description")
     public String getDescription() {
         return description;
     }
 
-    @Override
     public void setDescription(String description) {
         this.description = description;
     }
@@ -83,37 +75,31 @@ public class Survey implements SurveyInterface {
         this.author = author;
     }
 
-    @Override
     @Column(name = "date_start")
     @DateTimeFormat(pattern = "dd.mm.yyyy")
     public Date getStartDate() {
         return start_date;
     }
 
-    @Override
     public void setStartDate(Date date) {
         this.start_date = date;
     }
 
-    @Override
     @Column(name = "date_end")
     @DateTimeFormat(pattern = "dd.mm.yyyy")
     public Date getEndDate() {
         return end_date;
     }
 
-    @Override
     public void setEndDate(Date date) {
         this.end_date = date;
     }
 
-    @Override
     @Column(name="status")
     public Integer getStatus() {
         return status;
     }
 
-    @Override
     public void setStatus(Integer status) {
         this.status = status;
     }
@@ -144,7 +130,6 @@ public class Survey implements SurveyInterface {
     @LazyCollection(LazyCollectionOption.FALSE)
     public List<SurveyContactInterface> getSurveyContacts(){return surveyContacts;}
 
-    @Override
     public void setSurveyContacts(List<SurveyContactInterface> surveyContacts) {this.surveyContacts = surveyContacts;}
 
     @Transient
@@ -185,10 +170,8 @@ public class Survey implements SurveyInterface {
         return surveyQuestions;
     }
 
-    @Override
     public void setSurveyQuestions(List<SurveyQuestionInterface> surveyQuestions) {this.surveyQuestions = surveyQuestions;}
 
-    @Override
     @Transient
     public void addSurveyQuestion(SurveyQuestionInterface surveyQuestion) {this.surveyQuestions.add(surveyQuestion);}
 
@@ -198,7 +181,6 @@ public class Survey implements SurveyInterface {
         return evaluation;
     }
 
-    @Override
     public void setEvaluation(EvaluationInterface evaluation) {
         this.evaluation = evaluation;
     }

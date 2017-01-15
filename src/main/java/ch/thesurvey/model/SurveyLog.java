@@ -1,13 +1,10 @@
 package ch.thesurvey.model;
 
-import ch.thesurvey.model.interfaces.AnswerInterface;
 import ch.thesurvey.model.interfaces.QuestionInterface;
 import ch.thesurvey.model.interfaces.SurveyInterface;
 import ch.thesurvey.model.interfaces.SurveyLogInterface;
-import org.hibernate.annotations.Fetch;
 
 import javax.persistence.*;
-import java.util.List;
 
 /**
  * Class for storing a filled out survey

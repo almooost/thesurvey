@@ -1,10 +1,7 @@
 package ch.thesurvey.service;
 
 import ch.thesurvey.model.interfaces.ModelInterface;
-import ch.thesurvey.model.interfaces.SurveyQuestionInterface;
-import ch.thesurvey.persistence.dao.interfaces.SurveyContactDaoInterface;
 import ch.thesurvey.persistence.dao.interfaces.SurveyQuestionDaoInterface;
-import ch.thesurvey.service.interfaces.SurveyContactServiceInterface;
 import ch.thesurvey.service.interfaces.SurveyQuestionServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

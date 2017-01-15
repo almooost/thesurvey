@@ -1,6 +1,5 @@
 package ch.thesurvey.model;
 
-import ch.thesurvey.model.Answer;
 import ch.thesurvey.model.interfaces.AnswerInterface;
 import ch.thesurvey.model.interfaces.QuestionInterface;
 
